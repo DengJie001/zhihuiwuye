@@ -1,0 +1,7 @@
+.pub-txt-bar > input, pub-area-bar > textarea {
+	margin-right: 15px;
+}
+
+.input-tip {
+	color: red;
+}

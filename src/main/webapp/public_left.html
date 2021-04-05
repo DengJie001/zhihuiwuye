@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d"><head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>公共侧边栏</title>
+	<link rel="stylesheet" href="css/base.css">
+	<link rel="stylesheet" href="css/page.css">
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/main.js"></script>
+	<script type="text/javascript" src="js/modernizr.js"></script>
+</head>
+<body>
+	<!--side S-->
+	<div class="super-side-menu">
+		<!-- 项目logo放在这个里面 -->
+		<div class="side-menu">
+			<ul>
+				<li><a href="gonggao_zonglan.html" target="Mainindex"><i class="ico-1"></i>公告管理</a></li>
+				<li><a href="huodong_zonglan.html" target="Mainindex"><i class="ico-2"></i>活动管理</a></li>
+				<li><a href="fangchan_zonglan.html" target="Mainindex"><i class="ico-5"></i>房产管理</a></li>
+				<li><a href="shiwuzhaoling_guanli.html" target="Mainindex"><i class="ico-5"></i>失物招领信息</a></li>
+				<li><a href="guanliyuan_zonglan.html" target="Mainindex"><i class="ico-5"></i>管理员信息</a></li>
+				<li><a href="shebei_zonglan.html" target="Mainindex"><i class="ico-5"></i>设备管理</a></li>
+			</ul>
+		</div>
+	</div>
+	<!--side E-->
+
+<script type="text/javascript">
+	$(function(){
+		$('.side-menu li').click(function(){
+			$(this).addClass('on').siblings().removeClass('on');
+		})
+	})
+</script>
+
+</body></html>

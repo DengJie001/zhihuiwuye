@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IEquipmentDao">
+    <resultMap id="Equipment" type="club.codemata.entity.Equipment">
+        <!-- 主键列 -->
+        <id column="equipment_id" property="equipmentId" />
+        <!-- 非主键列 -->
+        <result column="equipment_name" property="equipmentName" />
+        <result column="equipment_price" property="equipmentPrice" />
+        <result column="equipment_picture" property="equipmentPicture" />
+        <result column="equipment_brand" property="equipmentBrand" />
+        <result column="equipment_type" property="equipmentType" />
+        <result column="equipment_quantity" property="equipmentQuantity" />
+        <result column="manager" property="managerId" />
+        <result column="date" property="date" />
+        <result column="buy_date" property="buyDate" />
+    </resultMap>
+
+    <resultMap id="EquipmentBO" type="club.codemata.bo.EquipmentBO">
+        <!-- 主键列 -->
+        <id column="equipment_id" property="equipmentId" />
+        <!-- 非主键列 -->
+        <result column="equipment_name" property="equipmentName" />
+        <result column="equipment_price" property="equipmentPrice" />
+        <result column="equipment_picture" property="equipmentPicture" />
+        <result column="equipment_brand" property="equipmentBrand" />
+        <result column="equipment_type" property="equipmentType" />
+        <result column="equipment_quantity" property="equipmentQuantity" />
+        <result column="buy_date" property="buyDate" />
+        <result column="manager_name" property="managerName" />
+        <result column="manager_tel" property="managerTel" />
+    </resultMap>
+
+    <!-- 新增一条设备信息 -->
+    <insert id="saveEquipment">
+        insert into equipment_info_tb
+            (
+             equipment_id,
+             equipment_name,
+             equipment_price,
+             equipment_picture,
+             equipment_brand,
+             equipment_type,
+             equipment_quantity,
+             manager,
+             buy_date
+            )
+        values
+            (
+             #{equipmentId},
+             #{equipmentName},
+             #{equipmentPrice},
+             #{equipmentPicture},
+             #{equipmentBrand},
+             #{equipmentType},
+             #{equipmentQuantity},
+             #{managerId},
+             #{buyDate}
+            )
+    </insert>
+
+    <!-- 根据id删除一条记录 -->
+    <delete id="removeEquipmentById">
+        delete from equipment_info_tb
+        where equipment_id = #{equipmentId}
+    </delete>
+
+    <!-- 修改一条设备信息 -->
+    <update id="updateEquipment">
+        update equipment_info_tb
+        set
+            equipment_name = #{equipmentName},
+            equipment_price = #{equipmentPrice},
+            equipment_brand = #{equipmentBrand},
+            equipment_type = #{equipmentType},
+            equipment_quantity = #{equipmentQuantity},
+            manager = #{managerId}
+        where equipment_id = #{equipmentId}
+    </update>
+
+    <!-- 根据id查询一条设备信息 -->
+    <select id="getEquipmentById" resultMap="Equipment">
+        select
+                equipment_id,
+                equipment_name,
+                equipment_price,
+                equipment_picture,
+                equipment_brand,
+                equipment_type,
+                equipment_quantity,
+                manager,
+                buy_date
+        from equipment_info_tb
+        where equipment_id = #{equipmentId}
+    </select>
+
+    <!-- 根据设备姓名查找设备信息 -->
+    <select id="getEquipmentsByName" resultMap="Equipment">
+        select
+            equipment_id,
+            equipment_name,
+            equipment_price,
+            equipment_picture,
+            equipment_brand,
+            equipment_type,
+            equipment_quantity,
+            manager,
+            buy_date
+        from equipment_info_tb
+        where equipment_name like #{equipmentName}
+    </select>
+
+    <!-- 根据设备品牌查询设备信息 -->
+    <select id="getEquipmentsByBrand" resultMap="Equipment">
+        select
+            equipment_id,
+            equipment_name,
+            equipment_price,
+            equipment_picture,
+            equipment_brand,
+            equipment_type,
+            equipment_quantity,
+            manager,
+            buy_date
+        from equipment_info_tb
+        where equipment_brand like #{equipmentBrand}
+    </select>
+
+    <!-- 根据管理员id查询该管理员负责的所有设备信息 -->
+    <select id="getEquipmentsByManager" resultMap="Equipment">
+        select
+                equipment_id,
+                equipment_name,
+                equipment_price,
+                equipment_picture,
+                equipment_brand,
+                equipment_type,
+                equipment_quantity,
+                manager,
+                buy_date
+        from equipment_info_tb
+        where manager = #{managerId}
+    </select>
+
+    <!-- 查询所有设备信息 -->
+    <select id="getAllEquipments" resultMap="Equipment">
+        select
+                equipment_id,
+                equipment_name,
+                equipment_price,
+                equipment_picture,
+                equipment_brand,
+                equipment_type,
+                equipment_quantity,
+                manager,
+                buy_date
+        from
+            equipment_info_tb
+    </select>
+
+    <select id="count" resultType="int" parameterType="String">
+        select count(equipment_id)
+        from equipment_info_tb
+        <where>
+            <if test="property == 'manager' and keyWords != null">
+                manager = #{keyWords}
+            </if>
+            <if test="property == 'equipmentId' and keyWords != null">
+                equipment_id = #{keyWords}
+            </if>
+            <if test="property == 'equipmentBrand' and keyWords != null">
+                equipmnet_brand like #{keyWords}
+            </if>
+            <if test="property == 'equipmentName' and keyWords != null">
+                equipment_name like #{keyWords}
+            </if>
+        </where>
+    </select>
+</mapper>

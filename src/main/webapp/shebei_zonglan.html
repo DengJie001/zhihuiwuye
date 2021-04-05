@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<title>设备资产管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" media="all" />
+		<link rel="stylesheet" href="css/mycss/shebei_zonglan.css">
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<style type="text/css">
+			.layui-form-label {
+				width: 100px;
+			}
+
+			.layui-input-block {
+				margin-left: 130px;
+				min-height: 36px;
+			}
+		</style>
+	</head>
+	<body style="background: #f6f5fa;">
+		<div class="super-content">
+			<div class="superCtab">
+				<div class="ctab-title clearfix">
+					<h3>设备管理</h3>
+				</div>
+				<div class="ctab-Main">
+					<div class="ctab-Main-title">
+						<ul class="clearfix">
+							<li class="cur"><a href="shebei_zonglan.html">设备总览</a></li>
+							<li><a href="shebei_tianjia.html">添加设备</a></li>
+						</ul>
+					</div>
+					<div class="ctab-Mian-cont">
+						<div class="Mian-cont-btn Mian-cont-btn2 clearfix" style="margin-bottom: 1px;">
+						</div>
+						<div class="Mian-cont-wrap">
+							<div style="text-align: center;">
+								<span style="font-size: 25px;">设备资产</span>
+							</div>
+							<table class="layui-hide" id="equipmentInfos" lay-filter="equipmentInfos"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 头部操作栏 -->
+		<script type="text/html" id="headerToolList">
+			<button class="layui-btn layui-btn-sm" lay-event="exportSelectedInfos">导出选中记录</button>
+			<button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="exportAllInfos">导出所有记录</button>
+			<a class="layui-btn layui-btn-sm" lay-event="refreshTable"><i class="layui-icon layui-icon-refresh"></i></a>
+			
+			
+			<div class="layui-inline" style="float:right; margin-left: 10px;">
+				<a type="button" class="layui-btn layui-btn-normal" id="search" style="height: 36px;">搜索</a>
+			</div> 
+			<input type="text" id="keyWords" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+			<div class="layui-inline" id="selectorContainer">
+				<select id="keys">
+					<option value ="equipmentId">选择属性</option>
+					<option value ="equipmentId">设备id</option>
+					<option value ="equipmentName">设备名称</option>
+					<option value ="managerId">负责人</option>
+					<option value ="equipmentBrand">设备品牌</option>
+				</select>
+			</div>
+		</script>
+		<!-- 单元格操作栏 -->
+		<script type="text/html" id="cellToolList">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="preview">查看图片</a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+		</script>
+		<!-- 在页面渲染结束后才能导入js文件 -->
+		<script type="text/javascript" src="js/main/shebei_zonglan.js"></script>
+
+		<div class="layui-row" id="editForm" style="display: none;">
+			<div class="layui-col-md10" style="margin-top: 25px;">
+				<form class="layui-form" id="modifyForm">
+					<div class="layui-form-item">
+						<label class="layui-form-label">设备ID</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="equipmentId" disabled="disabled" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">设备名称</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="equipmentName" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">设备品牌</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="equipmentBrand" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">设备型号</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="equipmentType" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">设备单价</label>
+						<div class="layui-input-block">
+							<input type="number" class="layui-input" id="equipmentPrice" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">设备数量</label>
+						<div class="layui-input-block">
+							<input type="number" class="layui-input" id="equipmentQuantity" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">负责人ID</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="managerId" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">负责人姓名</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="managerName" disabled="disabled" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">负责人联系方式</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="managerTel" disabled="disabled" />
+						</div>
+					</div>
+					<!-- <div class="layui-form-item">
+						<label class="layui-form-label">管理员头像:</label>
+						<div class="layui-inline" id="avatarContainer">
+							<img id="managerAvatar" alt="头像不见了" class="layui-circle">
+						</div>
+					</div> -->
+					<div class="layui-form-item" style="margin-top: 40px;">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-submit" id="submit">提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div class="pictureContainer">
+			
+		</div>
+	</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>房产-发布</title>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<link rel="stylesheet" href="layui/css/layui.mobile.css">
+		<link rel="stylesheet" type="text/css" href="js/webuploader/webuploader.css">
+		<link rel="stylesheet" type="text/css" href="js/webuploader/demo.css">
+		<link rel="stylesheet" href="css/mycss/fangchanfabu.css">
+		<script src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="js/jquery.selectui.js"></script>
+		<script type="text/javascript" src="js/main/fangchan_fabu.js"></script>
+
+		<script>
+			$(function($) {
+		$("select").selectui({
+			// 是否自动计算宽度
+			autoWidth: true,
+			// 是否启用定时器刷新文本和宽度
+			interval: true
+		});
+	});
+	</script>
+	</head>
+
+	<body style="background: rgb(246, 245, 250);">
+		<!--content S-->
+		<div class="super-content">
+
+			<div class="superCtab">
+				<div class="publishArt">
+					<div class="ctab-title clearfix">
+						<h4>房产管理</h4>
+					</div>
+					<div class="ctab-Main-title">
+						<ul class="clearfix">
+							<li><a href="fangchan_zonglan.html">房产总览</a></li>
+							<li class="cur"><a href="fangchan_fabu.html">新增房产</a></li>
+						</ul>
+					</div>
+					<div class="pubMain">
+						<form class="layui-form">
+							<h5 class="pubtitle">地址</h5>
+							<div class="pub-txt-bar">
+								<input style="width:10%;" type="text" id="addressInput" class="shuruTxt"><span class="input-tip" id="address-tip"></span>
+							</div>
+							<h5 class="pubtitle">管理人员id</h5>
+							<div class="pub-txt-bar">
+								<input style="width:10%;" type="text" id="managerIdInput" class="shuruTxt"><span class="input-tip" id="managerId-tip"></span>
+							</div>
+							<h5 class="pubtitle">价格</h5>
+							<div class="layui-input-inline" style="width: 100px;margin-right: 15px;">
+								<input type="number" name="price_min" id="priceInput" placeholder="￥" autocomplete="off" class="layui-input">
+							</div>
+							<span class="input-tip" id="price-tip"></span>
+							
+							<h5 class="pubtitle">房产类型</h5>
+							<input type="radio" name="house_category" value="出租" title="出租">
+							<input type="radio" name="house_category" value="出售" title="出售" checked >
+							<h5 class="pubtitle">住宅描述</h5>
+							<div class="pub-area-bar">
+								<textarea id="descriptionArea" name="" rows="" cols="3"></textarea><span class="input-tip" id="description-tip"></span>
+							</div>
+							<div class="layui-upload">
+								<div class="layui-btn" style="position: relative;">
+									<i class="layui-icon"></i>选择图片
+									<input type="file" onchange="selectImage(this);" class="layui-btn" name="pictures" id="selectImages" multiple />
+								</div>
+								<blockquote class="layui-elem-quote layui-quote-nm" style="margin-top: 10px;">
+									<div class="layui-upload-list" id="pictureContainer"></div>
+								</blockquote>
+							</div>
+							<div class="pub-btn">
+								<input type="button" onclick="submitHouseInfo();" id="" value="发布" class="saveBtn">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			layui.use('form', function(){
+			  var form = layui.form;
+			  form.render();
+			  //监听提交
+			  form.on('submit(formDemo)', function(data){
+			    layer.msg(JSON.stringify(data.field));
+			    return false;
+			  });
+			});
+		</script>
+	</body>
+</html>

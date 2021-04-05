@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IManagerDao">
+    <resultMap id="Manager" type="club.codemata.entity.Manager">
+        <!-- 主键列 -->
+        <id column="manager_id" property="managerId" />
+        <!-- 非主键列 -->
+        <result column="manager_tel" property="managerTel" />
+        <result column="manager_name" property="managerName" />
+        <result column="manager_avatar" property="managerAvatar" />
+        <result column="password" property="password" />
+    </resultMap>
+
+    <!-- 新增一条管理员信息 -->
+    <insert id="saveManagerInfo">
+        insert into manager_info_tb
+            (
+             manager_tel,
+             manager_name,
+             manager_avatar,
+             password
+            )
+        values
+            (
+             #{managerTel},
+             #{managerName},
+             #{managerAvatar},
+             md5(#{password})
+            )
+    </insert>
+
+    <!-- 删除一条管理员信息 -->
+    <delete id="removeManagerInfo">
+        delete from manager_info_tb
+        where manager_id = #{managerId}
+    </delete>
+
+    <!-- 修改管理员的姓名/电话 -->
+    <update id="updateManagerInfo">
+        update manager_info_tb
+        set
+            manager_name = #{managerName},
+            manager_tel = #{managerTel}
+        where manager_id = #{managerId}
+    </update>
+
+    <!-- 根据管理员id查询管理员身份信息 -->
+    <select id="getManagerById" resultMap="Manager">
+        select
+                manager_id,
+                manager_name,
+                manager_tel,
+                manager_avatar
+        from manager_info_tb
+        where manager_id = #{managerId}
+    </select>
+
+    <!-- 根据管理员电话号码查询管理员信息 -->
+    <select id="getManagerByTel" resultMap="Manager">
+        select
+                manager_id,
+                manager_tel,
+                manager_name,
+                manager_avatar
+        from manager_info_tb
+        where manager_tel = #{managerTel}
+    </select>
+
+    <!-- 根据管理员姓名查询管理员信息 -->
+    <select id="getManagersByName" resultMap="Manager">
+        select
+                manager_id,
+                manager_tel,
+                manager_name,
+                manager_avatar
+        from manager_info_tb
+        where manager_name like #{managerName}
+    </select>
+
+    <!-- 查询所有的管理员信息 通过PageHelper插件进行分页操作 -->
+    <select id="getAllManagers" resultMap="Manager">
+        select
+                manager_id,
+                manager_name,
+                manager_tel,
+                manager_avatar
+        from manager_info_tb
+    </select>
+
+    <!-- 核验管理员登录密码 -->
+    <select id="verifyPassword">
+        select count(manager_id)
+        from manager_info_tb
+        where
+                manager_id = #{managerId} and
+                password = md5(#{password})
+    </select>
+
+    <!-- 计算总的记录数量 -->
+    <select id="count" resultType="int" parameterType="String">
+        select count(manager_id)
+        from manager_info_tb
+        <where>
+            <if test="property == 'managerId' and keyWords != null">
+                manager_id = #{keyWords}
+            </if>
+            <if test="property == 'managerName' and keyWords != null">
+                manager_name like #{keyWords}
+            </if>
+            <if test="property == 'managerTel' and keyWords != null">
+                manager_tel = #{keyWords}
+            </if>
+        </where>
+    </select>
+</mapper>

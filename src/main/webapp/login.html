@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>管理员登录</title>
+		<link rel="stylesheet" href="css/dmaku.css">
+		<link rel="stylesheet" type="text/css" href="css/mycss/login.css"/>
+		<script src="js/jquery.min.js"></script>
+		<script src="js/main/login.js"></script>
+	</head>
+	<body>
+		<form method="post" action="" id="form1">
+			<div class="login">
+				<h2>管理员后台登录</h2>
+				<div class="form">
+					<div class="check_msg"></div>
+					<div class="login_name">
+						<input name="login_name" id="username" name="login_name" type="text" class="form_input" placeholder="请输入用户名" />
+					</div>
+					<div class="login_pwd">
+						<input name="login_pwd" id="password" name="login_pwd" type="password" class="form_input" placeholder="请输入密码" />
+					</div>
+					<div class="tip-pwd-name" id="login_tip" hidden="true"></div>
+					<div class="login_help"><span><a href="change_psw.html"> 忘记密码？</a></span>
+					</div>
+					<input name="btn_Login" type="button" onclick="managerLogin();" id="btn_Login" class="btn_Login" value="登 录" />
+				</div>
+			</div>
+		</form>
+	</body>
+</html>

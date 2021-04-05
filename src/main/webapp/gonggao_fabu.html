@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>公告-发布</title>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css"/>
+		<link rel="stylesheet" type="text/css" href="js/webuploader/webuploader.css">
+		<link rel="stylesheet" type="text/css" href="js/webuploader/demo.css">
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="js/jquery.selectui.js"></script>
+		<script type="text/javascript" src="js/main/gonggao_fabu.js"></script>
+		<script>
+				$(function($) {
+			$("select").selectui({
+				// 是否自动计算宽度
+				autoWidth: true,
+				// 是否启用定时器刷新文本和宽度
+				interval: true
+			});
+		});
+		</script>
+	</head>
+	<body style="background: rgb(246, 245, 250);">
+		<!--content S-->
+		<div class="super-content">
+			<div class="superCtab">
+				<div class="publishArt">
+					<div class="ctab-title clearfix">
+						<h4>公告管理</h4>
+					</div>
+					<div class="ctab-Main-title">
+						<ul class="clearfix">
+							<li><a href="gonggao_zonglan.html">公告总览</a></li>
+							<li class="cur"><a href="gonggao_fabu.html">发布公告</a></li>
+						</ul>
+					</div>
+					<div class="pubMain">
+						<form action="" method="post">
+							<h5 class="pubtitle">公告标题</h5>
+							<div class="pub-txt-bar">
+								<input type="text" id="titleInput" class="shuruTxt">
+							</div>
+							<h5 class="pubtitle">公告内容</h5>
+							<div class="pub-area-bar">
+								<textarea type="text" id="contentInput"></textarea>
+							</div>
+							<h5 class="pubtitle">公告作者(管理员id或电话号码)</h5>
+							<div class="pub-txt-bar">
+								<input type="text" class="shuruTxt" id="authorIdInput">
+							</div>
+							<h5 class="pubtitle">是否置顶</h5>
+							<div class="pub-txt-bar">
+								<input type="radio" name="top" id="" value="是">是
+								<input type="radio" name="top" id="" value="否" checked="checked">否
+							</div>
+							<div class="pub-btn">
+								<input type="button" id="submit" onclick="submitAnnouncement();" value="发布" class="saveBtn">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

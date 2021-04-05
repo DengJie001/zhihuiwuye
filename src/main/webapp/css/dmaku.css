@@ -1,0 +1,96 @@
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: "microsoft yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color: #333333;
+	background: url(../images/logobg.jpg) center top
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	outline: none;
+	border: 0
+}
+
+.login {
+	width: 343px;
+	height: 343px;
+	margin: 180px auto 0;
+	background: url(../images/login_bg.png) no-repeat
+}
+
+.login h2 {
+	color: #242424;
+	font-size: 18px;
+	font-weight: normal;
+	padding: 32px 0 0 35px
+}
+
+.form {
+	margin: 20px 0 0 40px
+}
+
+.check_msg {
+	height: 18px;
+	line-height: 18px;
+	color: #e64141;
+	width: 280px;
+	margin: 6px 0 0 38px
+}
+
+.login_name {
+	background: url(../images/logo_name.jpg);
+	width: 270px;
+	height: 32px;
+	text-indent: 2.5em;
+	padding-top: 6px
+}
+
+input,
+button,
+select,
+textarea {
+	outline: none;
+	font-family: "微软雅黑";
+	border: 0
+}
+
+.login_name input,
+.login_pwd input {
+	width: 230px;
+	line-height: 28px
+}
+
+.login_pwd {
+	background: url(../images/logo_psw.jpg);
+	width: 270px;
+	height: 32px;
+	text-indent: 2.5em;
+	padding-top: 6px;
+	margin-top: 20px
+}
+
+.login_help {
+	margin-top: 20px
+}
+
+.login_help a {
+	color: #666;
+	float: right;
+	padding-right: 30px;
+	text-decoration: none
+}
+
+.btn_Login {
+	background: #28c09a;
+	border-radius: 3px;
+	width: 273px;
+	height: 36px;
+	margin: 20px 0 10px 0;
+	color: #fff;
+	font-size: 16px;
+	line-height: 36px;
+	cursor: pointer
+}

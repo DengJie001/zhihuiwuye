@@ -1,0 +1,17 @@
+.input-tip {
+	color: red;
+}
+
+.pub-txt-bar>input,
+.layui-input-inline>input,
+.pub-area-bar>textarea {
+	margin-right: 15px;
+}
+
+#selectImages {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+}
