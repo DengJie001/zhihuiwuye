@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>设备-添加</title>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<link rel="stylesheet" href="layui/css/layui.mobile.css">
+		<link rel="stylesheet" type="text/css" href="js/webuploader/webuploader.css">
+		<link rel="stylesheet" type="text/css" href="js/webuploader/demo.css">
+		<link rel="stylesheet" href="css/mycss/shebei_tianjia.css">
+		<script src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="js/jquery.selectui.js"></script>
+		<script type="text/javascript" src="js/main/shebei_tianjia.js"></script>
+
+		<script>
+			$(function($) {
+				$("select").selectui({
+					// 是否自动计算宽度
+					autoWidth: true,
+					// 是否启用定时器刷新文本和宽度
+					interval: true
+				});
+			});
+		</script>
+	</head>
+
+	<body style="background: rgb(246, 245, 250);">
+		<!--content S-->
+		<div class="super-content">
+			<div class="superCtab">
+				<div class="publishArt">
+					<div class="ctab-title clearfix">
+						<h4>设备管理</h4>
+					</div>
+					<div class="ctab-Main-title">
+						<ul class="clearfix">
+							<li><a href="shebei_zonglan.html">设备总览</a></li>
+							<li class="cur"><a href="shebei_tianjia.html">添加设备</a></li>
+						</ul>
+					</div>
+					<div class="pubMain">
+						<form class="layui-form">
+							<h5 class="pubtitle">设备名称</h5>
+							<div class="pub-txt-bar">
+								<input style="width:10%;" type="text" id="nameInput" class="shuruTxt"><span class="input-tip" id="nameTip"></span>
+							</div>
+
+							<h5 class="pubtitle">负责人id</h5>
+							<div class="pub-txt-bar">
+								<input style="width:10%;" type="text" id="managerIdInput" class="shuruTxt"><span class="input-tip" id="managerIdTip"></span>
+							</div>
+
+							<h5 class="pubtitle">价格</h5>
+							<div class="layui-input-inline" style="width: 100px;margin-right: 15px;">
+								<input type="number" name="price_min" id="priceInput" placeholder="￥" autocomplete="off" class="layui-input">
+							</div>
+							<span class="input-tip" id="priceTip"></span>
+
+							<h5 class="pubtitle">品牌</h5>
+							<div class="pub-txt-bar">
+								<input type="text" id="brandInput" style="width: 10%;" class="shuruTxt" /><span class="input-tip" id="brandTip"></span>
+							</div>
+
+							<h5 class="pubtitle">型号</h5>
+							<div class="pub-txt-bar">
+								<input type="text" style="width: 10%;" id="typeInput" class="shuruTxt" /><span class="input-tip" id="typeTip"></span>
+							</div>
+
+							<h5 class="pubtitle">设备数量</h5>
+							<div class="pub-txt-bar">
+								<input type="number" style="width: 5%;" id="quantityInput" class="shuruTxt"><span class="input-tip" id="quantityTip"></span>
+							</div>
+
+							<h5 class="pubtitle">购买时间(不选择则默认今天)</h5>
+							<div class="layui-inline">
+								<div class="layui-input-inline">
+									<input type="text" class="layui-input" id="dateSelector" placeholder="yyyy-MM-dd">
+								</div>
+							</div>
+
+							<div class="layui-upload" style="margin-top: 30px;">
+								<div class="layui-btn" style="position: relative;">
+									<i class="layui-icon"></i>选择图片
+									<input type="file" onchange="selectPictures(this);" class="layui-btn" name="pictures" id="selectImages"
+									 multiple />
+								</div>
+								<div class="layui-upload-list" id="pictureContainer"></div>
+							</div>
+							<div class="pub-btn">
+								<input type="button" onclick="submitEquipmentInfo();" id="" value="发布" class="saveBtn">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			layui.use(['laydate', 'layer'], function() {
+				var laydate = layui.laydate;
+				var layer = layui.layer;
+				laydate.render({
+					elem: '#dateSelector',
+					theme: '#393D49'
+				});
+
+				layui.layer.photos({
+					photos: '#pictureContainer',
+					anim: 5
+				});
+			});
+		</script>
+	</body>
+</html>

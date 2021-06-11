@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IUserDao">
+    <resultMap id="User" type="club.codemata.entity.User">
+        <!-- 主键列 -->
+        <id column="user_id" property="userId" />
+        <!-- 非主键列 -->
+        <result column="user_tel" property="userTel" />
+        <result column="user_name" property="userName" />
+        <result column="gender" property="gender" />
+        <result column="nationality" property="nationality" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="area_id" property="areaId" />
+        <result column="unit_id" property="unitId" />
+        <result column="room_id" property="roomId" />
+    </resultMap>
+
+    <!-- 新增一个用户基本信息 -->
+    <insert id="saveUser">
+        insert into user_info_tb
+            (
+             user_id,
+             user_tel,
+             user_name,
+             gender,
+             nationality,
+             province,
+             city,
+             area_id,
+             unit_id,
+             room_id
+            )
+        values
+            (
+             #{userId},
+             #{userTel},
+             #{userName},
+             #{gender},
+             #{nationality},
+             #{province},
+             #{city},
+             #{areaId},
+             #{unitId},
+             #{roomId}
+            )
+    </insert>
+
+    <!-- 修改用户基本信息 -->
+    <update id="updateUser">
+        update user_info_tb
+        set
+            user_tel = #{userTel},
+            user_name = #{userName},
+            gender = #{gender},
+            nationality = #{nationality},
+            province = #{province},
+            city = #{city},
+            area_id = #{areaId},
+            unit_id = #{unitId},
+            room_id = #{roomId}
+        where user_id = #{userId}
+    </update>
+
+    <!-- 通过用户ID查找用户信息 -->
+    <select id="getUserById" resultMap="User">
+        select
+            user_id,
+            user_name,
+            user_tel,
+            gender,
+            nationality,
+            province,
+            city,
+            area_id,
+            unit_id,
+            room_id
+        from user_info_tb
+        where
+              user_id = #{userId} or
+              user_tel = #{userId}
+    </select>
+
+    <!-- 通过区域号和单元号查询用户信息 -->
+    <select id="getUsersByAreaAndUnitAndRoom" resultMap="User">
+        select
+            user_id,
+            user_tel,
+            user_name,
+            gender,
+            nationality,
+            province,
+            city,
+            area_id,
+            unit_id,
+            room_id
+        from user_info_tb
+        where
+            area_id = #{areaId} and
+            unit_id = #{unitId} and
+            room_id = #{roomId}
+    </select>
+
+    <!-- 根据属性及其对应值对用户进行计数 -->
+    <select id="count" resultType="int">
+        select count(user_id)
+        from user_info_tb
+        <where>
+            <if test="property == '用户ID'">
+                user_id = #{value1}
+            </if>
+            <if test="property == '地址' and value1 != null">
+                area_id = #{value1}
+            </if>
+            <if test="property == '地址' and value2 != null">
+                and unit_id = #{value2}
+            </if>
+        </where>
+    </select>
+
+    <select id="countByUserId" resultType="int">
+        select count(user_id)
+        from user_info_tb
+        where user_id = #{userId}
+    </select>
+</mapper>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>公告发布</title>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="css/mycss/gonggao_zonglan.css" />
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+	</head>
+
+	<body style="background: #f6f5fa;">
+		<div class="super-content">
+			<div class="superCtab">
+				<div class="ctab-title clearfix">
+					<h3>公告管理</h3>
+				</div>
+				<div class="ctab-Main-title">
+					<ul class="clearfix">
+						<li class="cur"><a href="gonggao_zonglan.html">公告总览</a></li>
+						<li><a href="gonggao_fabu.html">发布公告</a></li>
+					</ul>
+				</div>
+				<div class="ctab-Main">
+					<div class="ctab-Mian-cont">
+						<div class="Mian-cont-btn Mian-cont-btn2 clearfix" style="margin-bottom: 1px;">
+						</div>
+						<div class="Mian-cont-wrap">
+							<div style="text-align: center;">
+								<span style="font-size: 25px;">公告信息总览</span>
+							</div>
+							<table class="layui-hide" id="announcementInfos" lay-filter="announcementInfos"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 头部操作栏 -->
+		<script type="text/html" id="headerToolList">
+			<button class="layui-btn layui-btn-sm" lay-event="exportSelectedAnnouncements">导出选中公告</button>
+			<button class="layui-btn layui-btn-sm layui-btn-warm" lay-event="exportAllAnnouncements">导出所有公告</button>
+			<a class="layui-btn layui-btn-sm" lay-event="refreshTable"><i class="layui-icon layui-icon-refresh"></i></a>
+			<div class="layui-inline" style="float:right; margin-left: 10px;">
+				<a type="button" class="layui-btn layui-btn-normal" id="search" style="height: 36px;">搜索</a>
+			</div> 
+			<input type="text" id="keyWords" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+			<div class="layui-inline" id="selectorContainer">
+				<select id="keys" lay-filter="announcementPropertySelector">
+					<option value ="标题">选择属性</option>
+					<option value ="标题">标题</option>
+					<option value ="发布人">发布人</option>
+					<option value ="日期">日期</option>
+				</select>
+			</div>
+		</script>
+
+		<!-- 单元格操作栏 -->
+		<script type="text/html" id="cellToolList">
+			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+			<a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="preview">查看</a>
+			<a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="delete">删除</a>
+		</script>
+
+		<!-- 在页面渲染结束后才能导入js文件 -->
+		<script type="text/javascript" src="js/main/gonggao_zonglan.js"></script>
+		
+		<!-- 需要触发事件才会显示的内容 -->
+		<!-- 公告的详细内容 -->
+		<div class="layui-row" id="announcementDetail" style="display: none;">
+			<pre>
+				<div id="announcementContent">
+					
+				</div>
+			</pre>
+		</div>
+		
+		<!-- 修改公告信息 -->
+		<div class="layui-row" id="editAnnouncement" style="display: none;">
+			<div class="layui-col-md10" style="margin-top: 25rpx">
+				<form class="layui-form" id="modifyAnnouncement">
+					<div class="layui-form-item">
+						<label class="layui-form-label">公告ID</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="modifyId" disabled="disabled" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">标题</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="modifyTitle">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">内容</label>
+						<div class="layui-input-block">
+							<textarea class="layui-textarea" id="modifyContent">
+								
+							</textarea>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">发布人(ID)</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="modifyAuthor">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">联系方式</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="modifyTel" disabled="disabled">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">姓名</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="modifyName" disabled="disabled">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">日期</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="modifyDate" disabled="disabled">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">置顶</label>
+						<div class="layui-input-block" id="modifyTop">
+							<input type="radio" name="top" id="yes" value="是" title="是">
+							<input type="radio" name="top" id="no" value="否" title="否">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-submit" id="submit">提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

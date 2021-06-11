@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IRepairEvaluationDao">
+    <resultMap id="RepairEvaluation" type="club.codemata.entity.RepairEvaluation">
+        <!-- 主键列 -->
+        <id column="id" property="evaluationId" />
+        <!-- 非主键列 -->
+        <result column="user_id" property="userId" />
+        <result column="worker_id" property="workerId" />
+        <result column="repair_id" property="repairId" />
+        <result column="evaluation_content" property="evaluationContent" />
+        <result column="evaluation_score" property="evaluationScore" />
+        <result column="evaluation_date" property="evaluationDate" />
+    </resultMap>
+
+    <!-- 新增一条评价记录 -->
+    <insert id="saveRepairEvaluation">
+        insert into repair_evaluation_tb
+            (
+             id,
+             user_id,
+             worker_id,
+             repair_id,
+             evaluation_content,
+             evaluation_score
+            )
+        values
+            (
+             #{evaluationId},
+             #{userId},
+             #{workerId},
+             #{repairId},
+             #{evaluationContent},
+             #{evaluationScore}
+            )
+    </insert>
+
+    <!-- 查询物业维修评价 -->
+    <select id="getEvaluations" resultMap="RepairEvaluation">
+        select
+            id,
+            user_id,
+            worker_id,
+            repair_id,
+            evaluation_content,
+            evaluation_score,
+            evaluation_date
+        from repair_evaluation_tb
+        where worker_id = #{workerId}
+    </select>
+</mapper>

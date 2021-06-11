@@ -2,6 +2,7 @@ package club.codemata.dao;
 
 import club.codemata.entity.Announcement;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @Description 公告信息数据库操作接口
  * @createTime 2021/03/23 14:45:00
  */
+@Repository
 public interface IAnnouncementDao {
     /**
      * @author DengJie

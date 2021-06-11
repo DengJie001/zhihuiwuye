@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>来访人员登记</title>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.mobile.css" />
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" />
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main/visitor.js"></script>
+	</head>
+	<body>
+		<div style="margin-left: 25%; width: 50%; text-align: center; margin-top: 30px;">
+			<p style="font-size: 20px;">来访人员登记</p>
+		</div>
+		<form class="layui-form" style="margin-top: 20px;">
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-block">
+					<input type="text" id="visitorName" placeholder="输入您的姓名" class="layui-input" style="width: 90%;" />
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">联系方式</label>
+				<div class="layui-input-block">
+					<input type="text" id="visitorTel" placeholder="输入您的联系方式" class="layui-input" style="width: 90%;" />
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">体温</label>
+				<div class="layui-input-block">
+					<input type="number" id="visitorTemperature" placeholder="输入您当前体温" class="layui-input" style="width: 90%;" />
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">住址</label>
+				<div class="layui-input-block">
+					<input type="text" id="visitorHomeAddress" placeholder="输入您的家庭住址" class="layui-input" style="width: 90%;" />
+				</div>
+			</div>
+			
+			<div class="layui-form-item">
+				<label class="layui-form-label">工作地址</label>
+				<div class="layui-input-block">
+					<input type="text" id="visitorWorkAddress" placeholder="输入您的工作住址" class="layui-input" style="width: 90%;" />
+				</div>
+			</div>
+			
+			<div class="layui-form-item" style="margin-left: 10%; justify-items: center; justify-content: center; align-items: center;">
+				<div class="layui-input-block">
+					<button type="button" class="layui-btn layui-btn-normal" id="submitBtn" onclick="doSubmit();">提交</button>
+				</div>
+			</div>
+		</form>
+		<div style="margin-left: 25%; width: 50%; text-align: center;">
+			<p style="color: red;">您的数据将仅用于疫情防控,请放心填写</p>
+		</div>
+	</body>
+</html>                      

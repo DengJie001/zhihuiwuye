@@ -1,0 +1,29 @@
+#selectorContainer {
+	width: 120px;
+	float: right;
+}
+
+#keyWords {
+	width: 200px;
+	float: right;
+	margin-left: 10px;
+}
+
+#lowerValue, #higherValue {
+	width: 60%;
+}
+
+#workerAvatar {
+	height: 100px;
+	width: 100px;
+	border-radius: 50px;
+}
+
+.workerAvatarContainer {
+	margin-left: 200px;
+	margin-bottom: 20px;
+}
+
+#times, #wait, #score {
+	width: 270px;
+}

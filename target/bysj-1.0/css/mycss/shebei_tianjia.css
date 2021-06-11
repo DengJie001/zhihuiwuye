@@ -1,0 +1,15 @@
+#selectImages {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.pub-txt-bar > input {
+	margin-right: 15px;
+}
+
+.input-tip {
+	color: red;
+}

@@ -15,18 +15,11 @@ public class User {
     private String nationality; // 用户国籍
     private String province;    // 用户所在省份
     private String city;    // 用户所在城市
+    private String areaId; // 用户居住的区域号A-Z
+    private String unitId; // 用户居住的单元楼号
+    private String roomId;  // 用户门牌号
 
     public User() {
-    }
-
-    public User(String userId, String userTel, String userName, String gender, String nationality, String province, String city) {
-        this.userId = userId;
-        this.userTel = userTel;
-        this.userName = userName;
-        this.gender = gender;
-        this.nationality = nationality;
-        this.province = province;
-        this.city = city;
     }
 
     public String getUserId() {
@@ -85,6 +78,30 @@ public class User {
         this.city = city;
     }
 
+    public String getAreaId() {
+        return areaId;
+    }
+
+    public void setAreaId(String areaId) {
+        this.areaId = areaId;
+    }
+
+    public String getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(String unitId) {
+        this.unitId = unitId;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -95,6 +112,9 @@ public class User {
                 ", nationality='" + nationality + '\'' +
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
+                ", areaId='" + areaId + '\'' +
+                ", unitId='" + unitId + '\'' +
+                ", roomId='" + roomId + '\'' +
                 '}';
     }
 }

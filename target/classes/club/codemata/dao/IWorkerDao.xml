@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IWorkerDao">
+    <resultMap id="Worker" type="club.codemata.entity.Worker">
+        <!-- 主键列 -->
+        <id column="worker_id" property="workerId" />
+        <!-- 非主键列 -->
+        <result column="worker_name" property="workerName" />
+        <result column="worker_tel" property="workerTel" />
+        <result column="worker_avatar" property="workerAvatar" />
+        <result column="gender" property="gender" />
+        <result column="worker_description" property="workerDescription" />
+        <result column="score" property="score" />
+        <result column="times" property="times" />
+        <result column="wait" property="wait" />
+        <result column="cost" property="cost" />
+    </resultMap>
+
+    <!-- 新增一条维修人员信息 -->
+    <insert id="saveWorker">
+        insert into worker_info_tb
+            (
+             worker_id,
+             worker_name,
+             worker_tel,
+             worker_avatar,
+             gender,
+             worker_description,
+             score,
+             times,
+             wait,
+             cost
+            )
+        values
+            (
+             #{workerId},
+             #{workerName},
+             #{workerTel},
+             #{workerAvatar},
+             #{gender},
+             #{workerDescription},
+             #{score},
+             #{times},
+             #{wait},
+             #{cost}
+            )
+    </insert>
+
+    <!-- 删除一条维修人员信息 -->
+    <delete id="removeWorker">
+        delete from worker_info_tb
+        where worker_id = #{workerId}
+    </delete>
+
+    <!-- 跟新一条维修人员基本信息(姓名,电话,介绍) -->
+    <update id="updateWorker">
+        update worker_info_tb
+        set
+            worker_name = #{workerName},
+            worker_tel = #{workerTel},
+            worker_description = #{workerDescription},
+            gender = #{gender},
+            cost = #{cost}
+        where worker_id = #{workerId}
+    </update>
+
+    <!-- 将对应维修人员的服务次数增加1 -->
+    <update id="updateWorkerTimes">
+        update worker_info_tb
+        set times = times + #{value}
+        where worker_id = #{workerId}
+    </update>
+
+    <!-- 将对应维修人员的排队人数进行修改 -->
+    <update id="updateWorkerWait">
+        update worker_info_tb
+        set wait = wait + #{value}
+        where worker_id = #{workerId}
+    </update>
+
+    <!-- 更新一个员工的总体评分 -->
+    <update id="updateWorkerScore">
+        update worker_info_tb
+        set score = #{score}
+        where worker_id = #{workerId}
+    </update>
+
+    <!-- 根据人员ID查询一条维修人员信息 -->
+    <select id="getWorkerByWorkerId" resultMap="Worker">
+        select
+            worker_id,
+            worker_name,
+            worker_tel,
+            worker_avatar,
+            gender,
+            worker_description,
+            times,
+            score,
+            wait,
+            cost
+        from worker_info_tb
+        where worker_id = #{workerId}
+        limit 1
+    </select>
+    
+    <!-- 查询评分低于score的维修人员信息 -->
+    <select id="getWorkersByScore" resultMap="Worker">
+        select 
+            worker_id,
+            worker_name,
+            worker_tel,
+            worker_avatar,
+            gender,
+            worker_description,
+            times,
+            score,
+            wait,
+            cost
+        from worker_info_tb
+        where socre &lt;= #{score}
+    </select>
+    
+    <!-- 查询服务次数小于times的维修人员信息 -->
+    <select id="getWorkersByTimes" resultMap="Worker">
+        select
+            worker_id,
+            worker_name,
+            worker_tel,
+            worker_avatar,
+            gender,
+            worker_description,
+            times,
+            wait,
+            score,
+            cost
+        from worker_info_tb
+        where times &lt;= #{times}
+    </select>
+    
+    <!-- 查询排队人数小于wait的维修人员信息 -->
+    <select id="getWorkersByWait" resultMap="Worker">
+        select 
+            worker_id,
+            worker_name,
+            worker_tel,
+            worker_avatar,
+            gender,
+            worker_description,
+            times,
+            score,
+            wait,
+            cost
+        from worker_info_tb
+        where wait &lt;= #{wait}
+    </select>
+    
+    <!-- 查询所有维修人员信息 -->
+    <select id="getAllWorkers" resultMap="Worker">
+        select
+            worker_id,
+            worker_name,
+            worker_tel,
+            worker_avatar,
+            gender,
+            worker_description,
+            times,
+            score,
+            wait,
+            cost
+        from worker_info_tb
+    </select>
+
+    <select id="getWorkersByDescription" resultMap="Worker">
+        select
+            worker_id,
+            worker_name,
+            worker_tel,
+            worker_avatar,
+            gender,
+            worker_description,
+            times,
+            score,
+            wait,
+            cost
+        from worker_info_tb
+        where worker_description like #{keyWords}
+    </select>
+    
+    <!-- 根据属性和值进行维修人员计数 -->
+    <select id="count" resultType="int">
+        select count(worker_id)
+        from worker_info_tb
+        <where>
+            <if test="property == '评分' and value != null">
+                score &lt;= #{value}
+            </if>
+            <if test="property == '排队人数' and value != null">
+                wait &lt;= #{value}
+            </if>
+            <if test="property == '服务次数' and value != null">
+                times &lt;= #{value}
+            </if>
+            <if test="property == '技能' and value != null">
+                worker_description like #{value}
+            </if>
+        </where>
+    </select>
+</mapper>

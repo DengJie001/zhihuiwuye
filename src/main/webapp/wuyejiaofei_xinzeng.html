@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>物业账单-新增</title>
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" href="layui/css/layui.css">
+		<link rel="stylesheet" href="layui/css/layui.mobile.css">
+		<link rel="stylesheet" type="text/css" href="js/webuploader/webuploader.css">
+		<link rel="stylesheet" type="text/css" href="js/webuploader/demo.css">
+		<script src="layui/layui.all.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="js/jquery.selectui.js"></script>
+		<script type="text/javascript" src="js/main/wuyejiaofei_xinzeng.js"></script>
+		<script>
+			$(function($) {
+		$("select").selectui({
+			// 是否自动计算宽度
+			autoWidth: true,
+			// 是否启用定时器刷新文本和宽度
+			interval: true
+		});
+	});
+	</script>
+	</head>
+	<body style="background: rgb(246, 245, 250);">
+		<!--content S-->
+		<div class="super-content">
+
+			<div class="superCtab">
+				<div class="publishArt">
+					<div class="ctab-title">
+						<h4>新增物业账单</h4>						
+					</div>
+					<div class="ctab-Main-title">
+						<ul class="clearfix">
+							<li><a href="wuyejiaofei_zonglan.html">物业账单总览</a></li>
+							<li class="cur"><a href="wuyejiaofei_xinzeng.html">新增物业账单</a></li>
+						</ul>
+					</div>
+					<div class="pubMain">
+						<form class="layui-form" id="billInfoForm">
+							<h5 class="pubtitle">金额(单位:元)</h5>
+							<div class="pub-txt-bar">
+								<input style="width: 10%" type="number" id="billFigureInput" class="shuruTxt">
+							</div>
+
+							<h5 class="pubtitle">区域号(必须大写)</h5>
+							<div class="pub-txt-bar">
+								<input style="width: 10%" type="text" id="areaIdInput" class="shuruTxt" />
+							</div>
+							
+							<h5 class="pubtitle">单元号</h5>
+							<div class="pub-txt-bar">
+								<input style="width: 10%;" type="text" id="unitIdInput" class="shuruTxt" />
+							</div>
+							
+							<h5 class="pubtitle">房间号</h5>
+							<div class="pub-txt-bar">
+								<input style="width: 10%;" type="text" id="roomIdInput" class="shuruTxt" />
+							</div>
+							
+							<h5 class="pubtitle">类别</h5>
+							<div class="pub-txt-bar">
+								<input type="radio" name="billCategory" value="物业费" title="物业费" />
+								<input type="radio" name="billCategory" value="水费" title="水费" checked="checked" />
+								<input type="radio" name="billCategory" value="电费" title="电费" />
+							</div>
+
+							<div class="pub-btn">
+								<input type="button" onclick="addUtilityBill();" value="提交" class="saveBtn">
+								<input type="button" onclick="reset();" value="重置" class="saveBtn">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			layui.use('form', function() {
+				var form = layui.form;
+				form.render();
+			});
+		</script>
+	</body>
+</html>

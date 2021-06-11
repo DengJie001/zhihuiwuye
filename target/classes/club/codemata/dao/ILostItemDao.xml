@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.ILostItemDao">
+    <resultMap id="LostItem" type="club.codemata.entity.LostItem">
+        <!-- 主键列 -->
+        <id column="id" property="id" />
+        <!-- 非主键列 -->
+        <result column="user_id" property="userId" />
+        <result column="item_description" property="itemDescription" />
+        <result column="item_picture" property="itemPicture" />
+        <result column="item_category" property="itemCategory" />
+        <result column="item_status" property="itemStatus" />
+        <result column="date" property="itemDate" />
+    </resultMap>
+
+    <!-- 新增一条失物招领信息 -->
+    <insert id="saveLostItem">
+        insert into lost_items_tb
+            (
+             id,
+             user_id,
+             item_description,
+             item_picture,
+             item_category
+            )
+        values
+            (
+             #{id},
+             #{userId},
+             #{itemDescription},
+             #{itemPicture},
+             #{itemCategory}
+            )
+    </insert>
+
+    <!-- 修改失物招领的状态 -->
+    <update id="updateLostItemStatus">
+        update lost_items_tb
+        set item_status = #{itemStatus}
+        where id = #{id}
+    </update>
+
+    <!-- 删除一条失物招领信息 -->
+    <delete id="removeLostItem">
+        delete from lost_items_tb
+        where id = #{id}
+    </delete>
+
+    <!-- 根据失物招领信息ID查找一条失物招领信息 -->
+    <select id="getLostItemById" resultMap="LostItem">
+        select
+            id,
+            user_id,
+            item_description,
+            item_picture,
+            item_category,
+            item_status,
+            date
+        from lost_items_tb
+        where id = #{id}
+    </select>
+
+    <!-- 查找所有的失物招领信息 -->
+    <select id="getAllLostItems" resultMap="LostItem">
+        select
+            id,
+            user_id,
+            item_description,
+            item_picture,
+            item_category,
+            item_status,
+            date
+        from lost_items_tb
+    </select>
+
+    <!-- 根据用户ID查找该用户发布的所有失物招领信息 -->
+    <select id="getLostItemsByUserId" resultMap="LostItem">
+        select
+            id,
+            user_id,
+            item_description,
+            item_picture,
+            item_category,
+            item_status,
+            date
+        from lost_items_tb
+        where user_id = #{userId}
+    </select>
+
+    <!-- 根据失物招领类别查找失物招领信息 -->
+    <select id="getLostItemsByCategory" resultMap="LostItem">
+        select
+            id,
+            user_id,
+            item_description,
+            item_picture,
+            item_category,
+            item_status,
+            date
+        from lost_items_tb
+        where item_category = #{itemCategory}
+    </select>
+
+    <!-- 根据失物招领状态查询失物招领信息 -->
+    <select id="getLostItemsByStatus" resultMap="LostItem">
+        select
+            id,
+            user_id,
+            item_description,
+            item_picture,
+            item_category,
+            item_status,
+            date
+        from lost_items_tb
+        where item_status = #{itemStatus}
+    </select>
+
+    <!-- 根据失物招领描述的关键字查找失物招领信息 -->
+    <select id="getLostItemsByKeyWords" resultMap="LostItem">
+        select
+            id,
+            user_id,
+            item_description,
+            item_picture,
+            item_category,
+            item_status,
+            date
+        from lost_items_tb
+        where item_description like #{keyWords}
+    </select>
+
+    <select id="count" resultType="int">
+        select count(id)
+        from lost_items_tb
+        <where>
+            <if test="property == '用户ID' and value != null">
+                user_id = #{value}
+            </if>
+            <if test="property == '类别' and value != null">
+                item_category = #{value}
+            </if>
+            <if test="property == '状态' and value != null">
+                item_status = #{value}
+            </if>
+            <if test="property == '关键字' and value != null">
+                item_description like #{value}
+            </if>
+        </where>
+    </select>
+</mapper>

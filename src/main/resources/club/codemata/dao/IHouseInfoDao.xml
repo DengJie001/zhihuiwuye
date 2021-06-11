@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IHouseInfoDao">
+    <resultMap id="HouseInfo" type="club.codemata.entity.HouseInfo">
+        <!-- 主键列 -->
+        <id column="house_id" property="houseId" />
+        <!-- 非主键列 -->
+        <result column="area_id" property="areaId" />
+        <result column="unit_id" property="unitId" />
+        <result column="room_id" property="roomId" />
+    </resultMap>
+
+    <!-- 新增一条房产信息 -->
+    <insert id="saveHouseInfo">
+        insert into house_info_tb
+            (
+             area_id,
+             unit_id,
+             room_id
+            )
+        values
+            (
+             #{areaId},
+             #{unitId},
+             #{roomId}
+            )
+    </insert>
+
+    <!-- 更新一条房产信息 -->
+    <update id="updateHouseInfo">
+        update house_info_tb
+        set
+            area_id = #{areaId},
+            unit_id = #{unitId},
+            room_id = #{roomId}
+        where house_id = #{houseId}
+    </update>
+
+    <!-- 删除一条房产信息 -->
+    <delete id="removeHouseInfo">
+        delete from house_info_tb
+        where house_id = #{houseId}
+    </delete>
+
+    <!-- 查找所有的房产信息 -->
+    <select id="getAllHouseInfos" resultMap="HouseInfo">
+        select
+            house_id,
+            area_id,
+            unit_id,
+            room_id
+        from house_info_tb
+    </select>
+
+    <!-- 对所有房产信息进行计数 -->
+    <select id="count" resultType="int">
+        select count(house_id)
+        from house_info_tb
+    </select>
+</mapper>

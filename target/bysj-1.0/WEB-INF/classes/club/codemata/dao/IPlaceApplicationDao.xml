@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IPlaceApplicationDao">
+    <resultMap id="PlaceApplication" type="club.codemata.entity.PlaceApplication">
+        <!-- 主键列 -->
+        <id column="application_id" property="applicationId" />
+        <!-- 非主键列 -->
+        <result column="place_id" property="placeId" />
+        <result column="application_user" property="applicationUser" />
+        <result column="application_reason" property="applicationReason" />
+        <result column="result_id" property="resultId" />
+        <result column="application_date" property="applicationDate" />
+        <result column="begin_date" property="beginDate" />
+        <result column="end_date" property="endDate" />
+        <result column="cost" property="cost" />
+        <result column="application_note" property="applicationNote" />
+    </resultMap>
+
+    <!-- 新增一条场地申请记录 -->
+    <insert id="savePlaceApplication">
+        insert into place_application_tb
+            (
+             application_id,
+             place_id,
+             application_user,
+             application_reason,
+             begin_date,
+             end_date,
+             cost,
+             application_note,
+             result_id
+            )
+        values
+            (
+             #{applicationId},
+             #{placeId},
+             #{applicationUser},
+             #{applicationReason},
+             #{beginDate},
+             #{endDate},
+             #{cost},
+             #{applicationNote},
+             #{resultId}
+            )
+    </insert>
+
+    <!-- 删除一条场地申请记录 -->
+    <delete id="removePlaceApplication">
+        delete from place_application_tb
+        where application_id = #{applicationId}
+    </delete>
+
+    <!-- 修改一条场地申请记录 -->
+    <update id="updatePlaceApplication">
+        update place_application_tb
+        set
+            application_reason = #{applicationReason},
+            begin_date = #{beginDate},
+            end_date = #{endDate},
+            cost = #{cost},
+            application_note = #{applicationNote}
+        where application_id = #{applicationId}
+    </update>
+
+    <!-- 根据场地申请记录ID查询一条场地申请记录 -->
+    <select id="getPlaceApplicationById" resultMap="PlaceApplication">
+        select
+            application_id,
+            place_id,
+            application_user,
+            application_reason,
+            result_id,
+            application_date,
+            begin_date,
+            end_date,
+            cost,
+            application_note
+        from place_application_tb
+        where application_id = #{applicationId}
+    </select>
+
+    <!-- 根据场地编号查询该场地对应申请 -->
+    <select id="getPlaceApplicationsByPlaceId" resultMap="PlaceApplication">
+        select
+            application_id,
+            place_id,
+            application_user,
+            application_reason,
+            result_id,
+            application_date,
+            begin_date,
+            end_date,
+            cost,
+            application_note
+        from place_application_tb
+        where place_id = #{placeId}
+    </select>
+
+    <!-- 根绝处理结果ID查询场地申请信息 -->
+    <select id="getPlaceApplicationByResultId" resultMap="PlaceApplication">
+        select
+            application_id,
+            place_id,
+            application_user,
+            application_reason,
+            result_id,
+            application_date,
+            begin_date,
+            end_date,
+            cost,
+            application_note
+        from place_application_tb
+        where result_id = #{resultId}
+    </select>
+
+    <!-- 根据用户ID查询该用户所有的场地申请记录 -->
+    <select id="getPlaceApplicationsByUserId" resultMap="PlaceApplication">
+        select
+            application_id,
+            place_id,
+            application_user,
+            application_reason,
+            result_id,
+            application_date,
+            begin_date,
+            end_date,
+            cost,
+            application_note
+        from place_application_tb
+        where application_user = #{userId}
+    </select>
+
+    <!-- 根据时间查询该用户在当前时间范围内提交的申请记录 -->
+    <select id="getPlaceApplicationsByApplicationDate" resultMap="PlaceApplication">
+        select
+            application_id,
+            place_id,
+            application_user,
+            application_reason,
+            result_id,
+            application_date,
+            begin_date,
+            end_date,
+            cost,
+            application_note
+        from place_application_tb
+        where
+              application_date >= #{startDate} and
+              application_date &lt;= #{endDate} and
+              application_user = #{userId}
+    </select>
+
+    <!-- 查询所有的场地申请记录 -->
+    <select id="getAllPlaceApplications" resultMap="PlaceApplication">
+        select
+            application_id,
+            place_id,
+            application_user,
+            application_reason,
+            result_id,
+            application_date,
+            begin_date,
+            end_date,
+            cost,
+            application_note
+        from place_application_tb
+    </select>
+
+    <!-- 根据属性和值进行场地申请记录计数 -->
+    <select id="count" resultType="int">
+        select count(application_id)
+        from place_application_tb
+        <where>
+            <if test="property == '场地编号' and value != null">
+                place_id = #{value}
+            </if>
+            <if test="property == '用户' and value != null">
+                application_user = #{value}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据时间区间对场地申请记录进行计数 -->
+    <select id="countByDate" resultType="int">
+        select count(application_id)
+        from place_application_tb
+        where
+            application_date >= #{startDate} and
+            application_date &lt;= #{endDate}
+    </select>
+</mapper>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IQrCodeDao">
+    <resultMap id="QrCode" type="club.codemata.entity.QrCode">
+        <!-- 主键列 -->
+        <id column="code_id" property="codeId" />
+        <!-- 非主键列 -->
+        <result column="qr_code" property="qrCode" />
+        <result column="date" property="date" />
+    </resultMap>
+
+    <!-- 新增一张支付码 -->
+    <insert id="saveQrCode">
+        insert into qr_code
+            (
+             code_id,
+             qr_code
+            )
+        values
+            (
+             #{codeId},
+             #{qrCode}
+            )
+    </insert>
+
+    <!-- 删除一条支付码信息 -->
+    <delete id="removeQrCode">
+        delete from qr_code
+        where code_id = #{codeId}
+    </delete>
+
+    <!-- 更新一张支付码 -->
+    <update id="updateQrCode">
+        update qr_code
+        set qr_code = #{qrCode}
+        where code_id = #{codeId}
+    </update>
+
+    <!-- 获取一张支付码 -->
+    <select id="getQrCode" resultMap="QrCode">
+        select
+            code_id,
+            qr_code,
+            date
+        from qr_code
+        where code_id = #{codeId}
+    </select>
+</mapper>

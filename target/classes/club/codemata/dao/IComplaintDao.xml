@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IComplaintDao">
+    <resultMap id="Complaint" type="club.codemata.entity.Complaint">
+        <!-- 主键列 -->
+        <id column="id" property="id" />
+        <!-- 非主键列 -->
+        <result column="user_id" property="userId" />
+        <result column="complaint_date" property="date" />
+        <result column="message_content" property="messageContent" />
+        <result column="complaint_picture" property="picture" />
+        <result column="manager_id" property="managerId" />
+        <result column="manager_response" property="managerResponse" />
+        <result column="response_date" property="responseDate" />
+        <result column="result" property="result" />
+        <result column="status" property="status" />
+        <result column="category" property="category" />
+    </resultMap>
+
+    <!-- 新增一条用户投诉或建议 -->
+    <insert id="saveComplaint">
+        insert into complaint_message_tb
+            (
+             id,
+             user_id,
+             message_content,
+             complaint_picture,
+             status,
+             category,
+             response_date
+            )
+        values
+            (
+             #{id},
+             #{userId},
+             #{messageContent},
+             #{picture},
+             #{status},
+             #{category},
+             #{responseDate}
+            )
+    </insert>
+
+    <!-- 更新投诉建议的处理状态 -->
+    <update id="updateComplaintStatus">
+        update complaint_message_tb
+        set status = #{status}
+        where id = #{id}
+    </update>
+
+    <!-- 更新用户查看回复后的意见 -->
+    <update id="updateComplaintResult">
+        update complaint_message_tb
+        set result = #{result}
+        where id = #{id}
+    </update>
+
+    <!-- 更新管理员对于投诉建议的回复 -->
+    <update id="updateComplaintManagerResponse">
+        update complaint_message_tb
+        set
+            manager_id = #{managerId},
+            manager_response = #{managerResponse},
+            response_date = #{responseDate}
+        where id = #{id}
+    </update>
+
+    <!-- 用户删除一条投诉或者建议 -->
+    <delete id="removeComplaint">
+        delete from complaint_message_tb
+        where id = #{id}
+    </delete>
+
+    <!-- 根据ID查找一条投诉建议记录 -->
+    <select id="getComplaintById" resultMap="Complaint">
+        select
+            id,
+            user_id,
+            complaint_date,
+            message_content,
+            complaint_picture,
+            manager_id,
+            manager_response,
+            result,
+            status,
+            category,
+            response_date
+        from complaint_message_tb
+        where id = #{id}
+    </select>
+
+    <!-- 查找所有的用户投诉/建议 -->
+    <select id="getAllComplaints" resultMap="Complaint">
+        select
+            id,
+            user_id,
+            complaint_date,
+            message_content,
+            complaint_picture,
+            manager_id,
+            manager_response,
+            result,
+            status,
+            category,
+            response_date
+        from complaint_message_tb
+    </select>
+
+    <!-- 根据处理状态查询 -->
+    <select id="getComplaintsByStatus" resultMap="Complaint">
+        select
+            id,
+            user_id,
+            complaint_date,
+            message_content,
+            complaint_picture,
+            manager_id,
+            manager_response,
+            result,
+            status,
+            category,
+            response_date
+        from complaint_message_tb
+        where status = #{status}
+    </select>
+
+    <!-- 根据用户ID查找投诉/建议 -->
+    <select id="getComplaintsByUserId" resultMap="Complaint">
+        select
+            id,
+            user_id,
+            complaint_date,
+            message_content,
+            complaint_picture,
+            manager_id,
+            manager_response,
+            result,
+            status,
+            category,
+            response_date
+        from complaint_message_tb
+        where user_id = #{userId}
+    </select>
+
+    <!-- 根据管理员ID查找投诉/建议 -->
+    <select id="getComplaintsByManagerId" resultMap="Complaint">
+        select
+            id,
+            user_id,
+            complaint_date,
+            complaint_picture,
+            message_content,
+            manager_id,
+            manager_response,
+            result,
+            status,
+            category,
+            response_date
+        from complaint_message_tb
+        where manager_id = #{managerId}
+    </select>
+
+    <!-- 根据分类(投诉/建议)进行查找 -->
+    <select id="getComplaintsByCategory" resultMap="Complaint">
+        select
+            id,
+            user_id,
+            complaint_date,
+            complaint_picture,
+            message_content,
+            manager_id,
+            manager_response,
+            result,
+            status,
+            category,
+            response_date
+        from complaint_message_tb
+        where category = #{category}
+    </select>
+
+    <!-- 通过用户意见查询投诉建议 -->
+    <select id="getComplaintsByResult" resultMap="Complaint">
+        select
+            id,
+            user_id,
+            complaint_date,
+            complaint_picture,
+            message_content,
+            manager_id,
+            manager_response,
+            result,
+            status,
+            category,
+            response_date
+        from complaint_message_tb
+        where result = #{result}
+    </select>
+
+    <!-- 通过属性及其对应值进行计数 用于分页时的页数计算 -->
+    <select id="count" resultType="int">
+        select count(id)
+        from complaint_message_tb
+        <where>
+            <if test="property == '处理状态' and value != null">
+                status = #{value}
+            </if>
+            <if test="property == '用户ID' and value != null">
+                user_id = #{value}
+            </if>
+            <if test="property == '处理人' and value != null">
+                manager_id = #{value}
+            </if>
+            <if test="property == '分类' and value != null">
+                category = #{value}
+            </if>
+            <if test="property == '用户意见' and value != null">
+                result = #{value}
+            </if>
+        </where>
+    </select>
+
+    <!-- 获取用户未读但是管理员已经回复的投诉/建议的数量 -->
+    <select id="countUserUnreadComplaintReply" resultType="int">
+        select count(id)
+        from complaint_message_tb
+        where
+            user_Id = #{userId} and
+            result is null and
+            status = #{status}
+    </select>
+</mapper>

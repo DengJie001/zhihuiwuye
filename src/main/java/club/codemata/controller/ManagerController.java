@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -164,5 +165,42 @@ public class ManagerController {
         List<Manager> managers = new ArrayList<>();
         managers = managerService.getAllManagers();
         return managers;
+    }
+
+    @RequestMapping(value = "getManagerInfo.do")
+    @ResponseBody
+    public HashMap<String, Object> doGetManagerInfo(@RequestParam("managerId") String managerId) {
+        HashMap<String, Object> info = new HashMap<>();
+        try {
+            Manager manager = managerService.getManagerById(managerId);
+            manager.setPassword("******");
+            info.put("data", manager);
+            info.put("status", "success");
+        } catch (Exception e) {
+            info.put("status", "exception");
+            e.printStackTrace();
+        } finally {
+            return info;
+        }
+    }
+
+    @RequestMapping(value = "modifyManagerPassword.do")
+    @ResponseBody
+    public HashMap<String, Object> doModifyManagerPassword(@RequestParam("managerId") String managerId,
+                                                           @RequestParam("password") String password) {
+        HashMap<String, Object> info = new HashMap<>();
+        try {
+            int res = managerService.updateManagerPassword(managerId, password);
+            if (res > 0) {
+                info.put("status", "success");
+            } else {
+                info.put("status", "error");
+            }
+        } catch (Exception e) {
+            info.put("status", "exception");
+            e.printStackTrace();
+        } finally {
+            return info;
+        }
     }
 }

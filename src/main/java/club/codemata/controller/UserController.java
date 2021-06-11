@@ -1,5 +1,7 @@
 package club.codemata.controller;
 
+import club.codemata.entity.User;
+import club.codemata.service.impl.UserServiceImpl;
 import club.codemata.utils.SMSUtils;
 import club.codemata.vo.MessageVO;
 import com.alibaba.fastjson.JSON;
@@ -11,12 +13,15 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 
 /**
  * @author DengJie
@@ -28,10 +33,17 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "/user/")
 public class UserController {
+    private UserServiceImpl userService;
+
+    @Autowired
+    @Qualifier("UserService")
+    public void setUserService(UserServiceImpl userService) {
+        this.userService = userService;
+    }
+
     @RequestMapping(value = "getUserOpenid.do")
     @ResponseBody
     public String doGetUserOpenid(@RequestParam("code") String code) throws Exception {
-        System.out.println("code:" + code);
         String url = "https://api.weixin.qq.com/sns/jscode2session";
         url += "?appid=wx9c1f95f2cd5fc0db";
         url += "&secret=cc401286157aa8075bbd5bf39f31bef3";
@@ -57,6 +69,7 @@ public class UserController {
         HttpEntity responseEntity = response.getEntity();
         System.out.println("响应状态为:" + response.getStatusLine());
         if (responseEntity != null) {
+            System.out.println(responseEntity);
             res = EntityUtils.toString(responseEntity);
             System.out.println("相应内容长度:" + responseEntity.getContentLength());
             System.out.println("相应内容为:" + res);
@@ -74,12 +87,20 @@ public class UserController {
 
     @RequestMapping(value = "register.do")
     @ResponseBody
-    public MessageVO doRegister(HttpServletRequest request, @RequestParam("verifyCode") String code) {
-        System.out.println(code);
+    public MessageVO doRegister(HttpServletRequest request,
+                                @RequestParam("verifyCode") String code,
+                                @RequestParam("userId") String userId,
+                                @RequestParam("userTel") String userTel,
+                                @RequestParam("userName") String userName,
+                                @RequestParam("gender") String gender,
+                                @RequestParam("nationality") String nationality,
+                                @RequestParam("province") String province,
+                                @RequestParam("city") String city,
+                                @RequestParam("areaId") String areaId,
+                                @RequestParam("unitId") String unitId,
+                                @RequestParam("roomId") String roomId) {
         MessageVO messageVO = new MessageVO();
         JSONObject json = (JSONObject) request.getSession().getAttribute("code");
-        System.out.println("控制器json:" + json);
-        System.out.println("发送时间:" + json.getString("sendTime"));
         if (System.currentTimeMillis() - Long.parseLong(json.getString("sendTime")) > Integer.parseInt(SMSUtils.TIMEOUT) * 60 * 1000) {
             messageVO.setMsgId(0);
             messageVO.setMsgContent("验证码已过期");
@@ -89,10 +110,36 @@ public class UserController {
             messageVO.setMsgId(0);
             messageVO.setMsgContent("验证码错误");
         } else {
-            messageVO.setMsgId(1);
-            messageVO.setMsgContent("注册成功");
+            try {
+                userService.saveUser(userId, userTel, userName, gender, nationality, province, city, areaId, unitId, roomId);
+                messageVO.setMsgId(1);
+                messageVO.setMsgContent("注册成功");
+            } catch (Exception e) {
+                messageVO.setMsgId(0);
+                messageVO.setMsgContent("新增信息失败");
+                e.printStackTrace();
+            }
         }
-        // TODO 将数据存入数据库
         return messageVO;
+    }
+
+    @RequestMapping(value = "getUserInfo.do")
+    @ResponseBody
+    public HashMap<String, Object> doGetUserInfo(@RequestParam(value = "userId") String userId) {
+        HashMap<String, Object> res = new HashMap<>();
+        try {
+            User user = userService.getUserInfoById(userId);
+            System.out.println(user);
+            if (user == null) {
+                res.put("user", "error");
+            } else {
+                res.put("user", user);
+            }
+        } catch (Exception e) {
+            res.put("user", "error");
+            e.printStackTrace();
+        } finally {
+            return res;
+        }
     }
 }

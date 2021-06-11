@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IPlaceInfoDao">
+    <resultMap id="PlaceInfo" type="club.codemata.entity.PlaceInfo">
+        <!-- 主键列 -->
+        <id column="place_id" property="placeId" />
+        <!-- 非主键列 -->
+        <result column="manager_id" property="managerId" />
+        <result column="place_area" property="placeArea" />
+        <result column="place_price" property="placePrice" />
+        <result column="place_description" property="placeDescription" />
+        <result column="place_picture" property="placePicture" />
+        <result column="place_status" property="placeStatus" />
+    </resultMap>
+
+    <!-- 新增一条场地信息 -->
+    <insert id="savePlaceInfo">
+        insert into place_info_tb
+            (
+             manager_id,
+             place_area,
+             place_price,
+             place_description,
+             place_picture
+            )
+        values
+            (
+             #{managerId},
+             #{placeArea},
+             #{placePrice},
+             #{placeDescription},
+             #{placePicture}
+            )
+    </insert>
+    
+    <!-- 根据场地编号删除一条场地信息 -->
+    <delete id="removePlaceInfo">
+        delete from place_info_tb
+        where place_id = #{placeId}
+    </delete>
+    
+    <!-- 修改一条场地信息 -->
+    <update id="updatePlaceInfo">
+        update place_info_tb
+        set
+            manager_id = #{managerId},
+            place_area = #{placeArea},
+            place_price = #{placePrice},
+            place_description = #{placeDescription},
+            place_status = #{placeStatus}
+        where place_id = #{placeId}
+    </update>
+
+    <!-- 修改场地的使用状态 -->
+    <update id="updatePlaceStatus">
+        update place_info_tb
+        set place_status = #{placeStatus}
+        where place_id = #{placeId}
+    </update>
+    
+    <!-- 根据场地编号查找一条场地信息 -->
+    <select id="getPlaceInfoByPlaceId" resultMap="PlaceInfo">
+        select
+            place_id,
+            manager_id,
+            place_area,
+            place_price,
+            place_description,
+            place_picture,
+            place_status
+        from place_info_tb
+        where place_id = #{placeId}
+    </select>
+    
+    <!-- 根据管理员ID查找该管理员对应管理的场地信息 -->
+    <select id="getPlaceInfosByManagerId" resultMap="PlaceInfo">
+        select
+            place_id,
+            manager_id,
+            place_area,
+            place_price,
+            place_description,
+            place_picture,
+            place_status
+        from place_info_tb
+        where manager_id = #{managerId}
+    </select>
+    
+    <!-- 根据用户输入的场地面积区间查询场地信息 -->
+    <select id="getPlaceInfosByPlaceArea" resultMap="PlaceInfo">
+        select 
+            place_id,
+            manager_id,
+            place_area,
+            place_price,
+            place_description,
+            place_picture,
+            place_status
+        from place_info_tb
+        where 
+              place_area >= #{lowerArea} and
+              place_area &lt;= #{higherArea}
+    </select>
+    
+    <!-- 根据用户输入的价格区间查询场地信息 -->
+    <select id="getPlaceInfosByPlacePrice" resultMap="PlaceInfo">
+        select
+            place_id,
+            manager_id,
+            place_area,
+            place_price,
+            place_description,
+            place_picture,
+            place_status
+        from place_info_tb
+        where 
+            place_price >= #{lowerPrice} and
+            place_price &lt;= #{higherPrice}
+    </select>
+    
+    <!-- 根据场地的使用状态查询场地信息 -->
+    <select id="getPlaceInfosByPlaceStatus" resultMap="PlaceInfo">
+        select
+            place_id,
+            manager_id,
+            place_area,
+            place_price,
+            place_description,
+            place_picture,
+            place_status
+        from place_info_tb
+        where place_status = #{placeStatus}
+    </select>
+
+    <!-- 查询所有的场地信息 -->
+    <select id="getAllPlaceInfos" resultMap="PlaceInfo">
+        select
+            place_id,
+            manager_id,
+            place_area,
+            place_price,
+            place_description,
+            place_picture,
+            place_status
+        from place_info_tb
+    </select>
+    
+    <!-- 通过一个属性的一个值对场地信息进行计数 -->
+    <select id="countByOneValue" resultType="int">
+        select count(place_id)
+        from place_info_tb
+        <where>
+            <if test="property == '场地编号' and value != null">
+                place_id = #{value}
+            </if>
+            <if test="property == '管理员' and value != null">
+                manager_id = #{value}
+            </if>
+            <if test="property == '使用状态' and value != null">
+                place_status = #{value}
+            </if>
+        </where>
+    </select>
+
+    <!-- 通过某个属性对应的区间值对场地信息进行计数 -->
+    <select id="countByTwoValue" resultType="int">
+        select count(place_id)
+        from place_info_tb
+        <where>
+            <if test="property == '面积'">
+                place_area >= #{lowerValue} and
+                place_area &lt;= #{higherValue}
+            </if>
+            <if test="property == '价格'">
+                place_price >= #{lowerValue} and
+                place_price &lt;= #{higherValue}
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<title>维修人员信息管理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="css/mycss/weixiurenyuan_zonglan.css"/>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" media="all" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<style type="text/css">
+			.layui-form-label {
+				width: 100px;
+			}
+
+			.layui-input-block {
+				margin-left: 130px;
+				min-height: 36px;
+			}
+		</style>
+	</head>
+	<body style="background: #f6f5fa;">
+		<div class="super-content">
+			<div class="superCtab">
+				<div class="ctab-title clearfix">
+					<h3>维修人员信息管理</h3>
+				</div>
+				<div class="ctab-Main-title">
+					<ul class="clearfix">
+						<li class="cur"><a href="weixiurenyuan_zonglan.html">维修人员总览</a></li>
+						<li><a href="weixiurenyuan_xinzeng.html">新增维修人员</a></li>
+					</ul>
+				</div>
+				<div class="ctab-Main">
+					<div class="ctab-Mian-cont">
+						<div class="Mian-cont-btn Mian-cont-btn2 clearfix" style="margin-bottom: 1px;">
+						</div>
+						<div class="Mian-cont-wrap">
+							<div style="text-align: center;">
+								<span style="font-size: 25px;">维修人员信息总览表</span>
+							</div>
+							<table class="layui-hide" id="workerInfos" lay-filter="workerInfos"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type="text/html" id="headerToolList">
+			<button class="layui-btn layui-btn-sm" lay-event="exportSelectedWorkerInfos">导出选中记录</button>
+			<button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="exportAllWorkerInfos">导出所有记录</button>
+			<a class="layui-btn layui-btn-sm" lay-event="refreshTable"><i class="layui-icon layui-icon-refresh"></i></a>
+			
+			
+			<div class="layui-inline" style="float:right; margin-left: 10px;">
+				<a type="button" class="layui-btn layui-btn-normal" id="search" style="height: 36px;">搜索</a>
+			</div> 
+			<input type="text" id="keyWords" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+			<div class="layui-inline" id="selectorContainer">
+				<select id="keys" lay-filter="workerPropertySelector">
+					<option value ="维修人员ID">选择属性</option>
+					<option value ="维修人员ID">维修人员ID</option>
+					<option value ="评分">评分</option>
+					<option value="排队人数">排队人数</option>
+					<option value="服务次数">服务次数</option>
+				</select>
+			</div>
+		</script>
+		<script type="text/html" id="cellToolList">
+			<a class="layui-btn layui-btn-xs" lay-event="modifyWorkerInfo">编辑</a>
+		      <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="deleteWorkerInfo">删除</a>
+		</script>
+		
+		<script type="text/html" id="workerGenderTpl">
+			{{# if (d.gender === '女'){ }}
+			<span style="color: #F581B1;">{{d.gender}}</span>
+			{{# } else { }}
+			{{d.gender}}
+			{{# } }}
+		</script>
+		
+		<script type="text/javascript" src="js/main/weixiurenyuan_zonglan.js"></script>
+
+		<div class="layui-row" id="modifyWorkerInfoForm" style="display: none;">
+			<div class="layui-col-md10" style="margin-top: 25px;">
+				<div class="workerAvatarContainer">
+					<img src="" id="workerAvatar" />
+				</div>
+				<form class="layui-form" id="m_workerForm">
+					<div class="layui-form-item">
+						<label class="layui-form-label">维修人员工号</label>
+						<div class="layui-input-block">
+							<input type="text" class="layui-input" id="workerId" disabled="disabled">
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">维修人员电话</label>
+						<div class="layui-input-block">
+							<input type="text" id="workerTel" class="layui-input" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">维修人员姓名</label>
+						<div class="layui-input-block">
+							<input type="text" id="workerName" class="layui-input" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">性别</label>
+						<div class="layui-input-block">
+							<input type="radio" name="gender" id="male" value="男" title="男" />
+							<input type="radio" name="gender" id="female" value="女" title="女" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">维修人员介绍</label>
+						<div class="layui-input-block">
+							<textarea class="layui-textarea" id="workerDescription"></textarea>
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">服务次数</label>
+						<div class="layui-input-inline">
+							<input type="text" id="times" class="layui-input" disabled="disabled" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">排队人数</label>
+						<div class="layui-input-block">
+							<input type="text" id="wait" class="layui-input" disabled="disabled" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">评分</label>
+						<div class="layui-input-block">
+							<input type="text" id="score" class="layui-input" disabled="" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item">
+						<label class="layui-form-label">价格</label>
+						<div class="layui-input-block">
+							<input type="number" id="cost" class="layui-input" />
+						</div>
+					</div>
+					
+					<div class="layui-form-item" style="margin-top: 40px;">
+						<div class="layui-input-block">
+							<button type="button" class="layui-btn layui-btn-submit" id="modifyWorker">提交</button>
+							<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>

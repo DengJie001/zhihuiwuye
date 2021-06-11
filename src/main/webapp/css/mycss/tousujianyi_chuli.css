@@ -1,0 +1,10 @@
+#selectorContainer {
+	width: 120px;
+	float: right;
+}
+
+#keyWords {
+	width: 200px;
+	float: right;
+	margin-left: 10px;
+}

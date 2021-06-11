@@ -43,6 +43,15 @@ public interface IManagerDao {
     public int updateManagerInfo(Manager manager);
 
     /**
+     * 修改管理员登录密码
+     * @Date 2021/5/8 0:51
+     * @param managerId 管理员账号
+     * @param password 新密码
+     * @return int
+     **/
+    public int updateManagerPassword(@Param("managerId") String managerId, @Param("password") String password) throws Exception;
+
+    /**
      * @author DengJie
      * @description 根据管理员id查询一条管理员身份信息
      * @Date 2021/3/3 20:46

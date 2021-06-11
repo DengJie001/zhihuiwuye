@@ -10,16 +10,14 @@ package club.codemata.entity;
 public class PlaceApplication {
     private String applicationId;
     private int placeId;
-    private String applicationUserId;
-    private String applicationManager;
+    private String applicationUser;
     private String applicationReason;
-    private String applicationResult;
-    private String applicationStatus;
+    private String resultId;
     private String applicationDate;
     private String beginDate;
     private String endDate;
-    private String resultDescription;
     private int cost;
+    private String applicationNote;
 
     public PlaceApplication() {
     }
@@ -40,20 +38,12 @@ public class PlaceApplication {
         this.placeId = placeId;
     }
 
-    public String getApplicationUserId() {
-        return applicationUserId;
+    public String getApplicationUser() {
+        return applicationUser;
     }
 
-    public void setApplicationUserId(String applicationUserId) {
-        this.applicationUserId = applicationUserId;
-    }
-
-    public String getApplicationManager() {
-        return applicationManager;
-    }
-
-    public void setApplicationManager(String applicationManager) {
-        this.applicationManager = applicationManager;
+    public void setApplicationUser(String applicationUser) {
+        this.applicationUser = applicationUser;
     }
 
     public String getApplicationReason() {
@@ -64,20 +54,12 @@ public class PlaceApplication {
         this.applicationReason = applicationReason;
     }
 
-    public String getApplicationResult() {
-        return applicationResult;
+    public String getResultId() {
+        return resultId;
     }
 
-    public void setApplicationResult(String applicationResult) {
-        this.applicationResult = applicationResult;
-    }
-
-    public String getApplicationStatus() {
-        return applicationStatus;
-    }
-
-    public void setApplicationStatus(String applicationStatus) {
-        this.applicationStatus = applicationStatus;
+    public void setResultId(String resultId) {
+        this.resultId = resultId;
     }
 
     public String getApplicationDate() {
@@ -104,14 +86,6 @@ public class PlaceApplication {
         this.endDate = endDate;
     }
 
-    public String getResultDescription() {
-        return resultDescription;
-    }
-
-    public void setResultDescription(String resultDescription) {
-        this.resultDescription = resultDescription;
-    }
-
     public int getCost() {
         return cost;
     }
@@ -120,21 +94,27 @@ public class PlaceApplication {
         this.cost = cost;
     }
 
+    public String getApplicationNote() {
+        return applicationNote;
+    }
+
+    public void setApplicationNote(String applicationNote) {
+        this.applicationNote = applicationNote;
+    }
+
     @Override
     public String toString() {
         return "PlaceApplication{" +
                 "applicationId='" + applicationId + '\'' +
                 ", placeId=" + placeId +
-                ", applicationUserId='" + applicationUserId + '\'' +
-                ", applicationManager='" + applicationManager + '\'' +
+                ", applicationUser='" + applicationUser + '\'' +
                 ", applicationReason='" + applicationReason + '\'' +
-                ", applicationResult='" + applicationResult + '\'' +
-                ", applicationStatus='" + applicationStatus + '\'' +
+                ", resultId='" + resultId + '\'' +
                 ", applicationDate='" + applicationDate + '\'' +
                 ", beginDate='" + beginDate + '\'' +
                 ", endDate='" + endDate + '\'' +
-                ", resultDescription='" + resultDescription + '\'' +
                 ", cost=" + cost +
+                ", applicationNote='" + applicationNote + '\'' +
                 '}';
     }
 }

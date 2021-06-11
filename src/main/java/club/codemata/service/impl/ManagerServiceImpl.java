@@ -63,6 +63,18 @@ public class ManagerServiceImpl implements IManagerService {
     }
 
     /**
+     * 修改管理员密码
+     * @Date 2021/5/8 0:55
+     * @param managerId 管理员ID
+     * @param password 新密码
+     * @return int
+     **/
+    @Override
+    public int updateManagerPassword(String managerId, String password) throws Exception {
+        return managerDao.updateManagerPassword(managerId, password);
+    }
+
+    /**
      * @author DengJie
      * @description 根据管理员id查找一条管理员身份信息
      * @Date 2021/3/8 18:41
@@ -138,7 +150,7 @@ public class ManagerServiceImpl implements IManagerService {
                 }
                 break;
             case "managerName":
-                List<Manager> managersByName = managerDao.getManagersByName("%3" + keyWords + "%");
+                List<Manager> managersByName = managerDao.getManagersByName("%" + keyWords + "%");
                 if (managersByName.size() > 0) {
                     for (Manager manager : managersByName) {
                         managers.add(manager);
@@ -153,5 +165,17 @@ public class ManagerServiceImpl implements IManagerService {
                 break;
         }
         return managers;
+    }
+
+    /**
+     * 管理员登录
+     * @Date 2021/4/20 14:18
+     * @param managerId 账号
+     * @param password 密码
+     * @return int
+     **/
+    @Override
+    public int managerLogin(String managerId, String password) throws Exception {
+        return managerDao.verifyPassword(managerId, password);
     }
 }

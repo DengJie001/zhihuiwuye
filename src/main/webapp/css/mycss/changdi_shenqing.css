@@ -1,0 +1,14 @@
+#selectorContainer {
+	width: 100px;
+	float: right;
+}
+
+#keyWords {
+	width: 200px;
+	float: right;
+	margin-left: 10px;
+}
+
+#lowerValue, #higherValue {
+	width: 60%;
+}

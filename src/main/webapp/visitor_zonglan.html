@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<title>来访人员信息</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="css/mycss/tousujianyi_chuli.css"/>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" media="all" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<style type="text/css">
+			.layui-form-label {
+				width: 100px;
+			}
+
+			.layui-input-block {
+				margin-left: 130px;
+				min-height: 36px;
+			}
+		</style>
+	</head>
+	<body style="background: #f6f5fa;">
+		<div class="super-content">
+			<div class="superCtab">
+				<div class="ctab-title clearfix">
+					<h3>来访人员信息</h3>
+				</div>
+				<div class="ctab-Main">
+					<div class="ctab-Main-title">
+						<ul class="clearfix">
+							<li class="cur"><a href="tousujianyi_chuli.html">来访人员信息总览</a></li>
+						</ul>
+					</div>
+					<div class="ctab-Mian-cont">
+						<div class="Mian-cont-btn Mian-cont-btn2 clearfix" style="margin-bottom: 1px;">
+						</div>
+						<div class="Mian-cont-wrap">
+							<div style="text-align: center;">
+								<span style="font-size: 25px;">来访人员信息</span>
+							</div>
+							<table class="layui-hide" id="visitorInfos" lay-filter="visitorInfos"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 头部操作栏 -->
+		<script type="text/html" id="headerToolList">
+			<button class="layui-btn layui-btn-sm" lay-event="exportSelectedVisitors">导出选中记录</button>
+			<button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="exportAllVisitors">导出所有记录</button>
+			<a class="layui-btn layui-btn-sm" lay-event="refreshTable"><i class="layui-icon layui-icon-refresh"></i></a>
+
+			<!-- 搜索区域 -->
+			<div class="layui-inline" style="float:right; margin-left: 10px;">
+				<a type="button" class="layui-btn layui-btn-normal" id="searchVisitors" style="height: 36px;">搜索</a>
+			</div> 
+			<input type="text" id="keyWords" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+			<div class="layui-inline" id="selectorContainer">
+				<select id="keys">
+					<option value ="体温">选择属性</option>
+					<option value ="体温">温度</option>
+					<option value ="日期">日期</option>
+				</select>
+			</div>
+		</script>
+		<!-- 单元格操作栏 -->
+		<script type="text/html" id="cellToolList">
+			<a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+		</script>
+		
+		
+		<!-- 用户意见单元格模板 -->
+		<script type="text/html" id="visitorTemperatureTpl">
+			{{# if (d.visitorTemperature > 37.5) { }}
+				<span style="color: red">{{d.visitorTemperature}}</span>
+			{{# } else { }}
+				<span style="color: greenyellow;">{{d.visitorTemperature}}</span>
+			{{# } }}
+		</script>
+		<!-- 在页面渲染结束后才能导入js文件 -->
+		<script type="text/javascript" src="js/main/visitor_zonglan.js"></script>
+	</body>
+</html>

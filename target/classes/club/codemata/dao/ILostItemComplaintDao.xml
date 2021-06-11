@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.ILostItemComplaintDao">
+    <resultMap id="LostItemComplaint" type="club.codemata.entity.LostItemComplaint">
+        <!-- 主键列 -->
+        <id column="complaint_id" property="complaintId" />
+        <!-- 非主键列 -->
+        <result column="lost_item_id" property="lostItemId" />
+        <result column="complaint_category" property="complaintCategory" />
+    </resultMap>
+
+    <!-- 新增一条失物招领举报信息 -->
+    <insert id="saveComplaint">
+        insert into lost_item_complaint_tb
+            (
+             complaint_id,
+             lost_item_id,
+             complaint_category
+            )
+        values
+            (
+             #{complaintId},
+             #{lostItemId},
+             #{complaintCategory}
+            )
+    </insert>
+
+    <select id="getAllLostItemComplaints" resultMap="LostItemComplaint">
+        select
+            complaint_id,
+            lost_item_id,
+            complaint_category
+        from lost_item_complaint_tb
+    </select>
+
+    <select id="count" resultType="int">
+        select count(complaint_id)
+        from lost_item_complaint_tb
+    </select>
+</mapper>

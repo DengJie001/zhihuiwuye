@@ -47,16 +47,22 @@ public class EquipmentController {
 
     @RequestMapping(value = "uploadEquipmentPictures.do")
     @ResponseBody
-    public String doUploadEquipmentPictures(HttpServletRequest request,
+    public MessageVO doUploadEquipmentPictures(HttpServletRequest request,
                          HttpServletResponse response,
                          @RequestParam("pictures") MultipartFile pictures) {
+        MessageVO messageVO = new MessageVO();
         String imgPath = null;
         try {
             imgPath = ImageUtils.upload(request, pictures, "设备照片");
+            messageVO.setMsgId(1);
+            messageVO.setMsgContent(imgPath);
         } catch (IOException e) {
+            messageVO.setMsgId(-1);
+            messageVO.setMsgContent("上传图片时发生了异常");
             e.printStackTrace();
+        } finally {
+            return messageVO;
         }
-        return imgPath;
     }
 
     @RequestMapping(value = "addEquipment.do")

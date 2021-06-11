@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IPlaceApplicationResultDao">
+    <resultMap id="PlaceApplicationResult" type="club.codemata.entity.PlaceApplicationResult">
+        <!-- 主键列 -->
+        <id column="result_id" property="resultId" />
+        <!-- 非主键列 -->
+        <result column="result" property="result" />
+        <result column="result_description" property="resultDescription" />
+        <result column="manager_id" property="managerId" />
+        <result column="result_date" property="resultDate" />
+    </resultMap>
+
+    <!-- 添加一条场地处理结果 -->
+    <insert id="savePlaceApplicationResult">
+        insert into place_application_result_tb
+            (
+             result_id,
+             result,
+             result_description,
+             manager_id
+            )
+        values
+            (
+             #{resultId},
+             #{result},
+             #{resultDescription},
+             #{managerId}
+            )
+    </insert>
+
+    <!-- 根据处理结果编号删除一条处理结果 -->
+    <delete id="removePlaceApplicationResult">
+        delete from place_application_result_tb
+        where result_id = #{resultId}
+    </delete>
+
+    <!-- 更新一条处理结果 -->
+    <update id="updatePlaceApplicationResult">
+        update place_application_result_tb
+        set
+            result = #{result},
+            result_description = #{resultDescription},
+            manager_id = #{managerId}
+        where result_id = #{resultId}
+    </update>
+
+    <!-- 根据处理结果编号查询处理结果 -->
+    <select id="getPlaceApplicationResultByResultId" resultMap="PlaceApplicationResult">
+        select
+            result_id,
+            result,
+            result_description,
+            manager_id,
+            result_date
+        from place_application_result_tb
+        where result_id = #{resultId}
+    </select>
+
+    <!-- 根据处理结果查询 -->
+    <select id="getPlaceApplicationResultsByResult" resultMap="PlaceApplicationResult">
+        select
+            result_id,
+            result,
+            result_description,
+            manager_id,
+            result_date
+        from place_application_result_tb
+        where result = #{result}
+    </select>
+
+    <!-- 根据管理员ID查询该管理员处理的场地申请 -->
+    <select id="getPlaceApplicationResultsByManagerId" resultMap="PlaceApplicationResult">
+        select
+            result_id,
+            result,
+            result_description,
+            manager_id,
+            result_date
+        from place_application_result_tb
+        where manager_id = #{managerId}
+    </select>
+
+    <!-- 根据属性及其对应值进行场地申请结果计数 -->
+    <select id="count" resultType="int">
+        select count(result_id)
+        from place_application_result_tb
+        <where>
+            <if test="property == '申请结果' and value != null">
+                result = #{value}
+            </if>
+            <if test="property == '管理员ID' and value != null">
+                manager_id = #{value}
+            </if>
+        </where>
+    </select>
+</mapper>

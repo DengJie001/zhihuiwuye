@@ -1,0 +1,17 @@
+#selectPlaceImages {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+#managerIdInput, 
+#placePriceInput,
+#PlaceAreaInput {
+	width: 10%;
+}
+
+#placeDescriptionInput {
+	width: 40%;
+}

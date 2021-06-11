@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IAnnouncementDao">
+    <resultMap id="Announcement" type="club.codemata.entity.Announcement">
+        <!-- 主键列 -->
+        <id column="id" property="id" />
+        <!-- 非主键列 -->
+        <result column="title" property="title" />
+        <result column="author" property="author" />
+        <result column="content" property="content" />
+        <result column="date" property="date" />
+        <result column="top" property="top" />
+    </resultMap>
+
+    <!-- 添加公告 -->
+    <insert id="saveAnnouncement">
+        insert into announcement_tb
+            (
+             id,
+             title,
+             author,
+             content,
+             top
+            )
+        values
+            (
+             #{id},
+             #{title},
+             #{author},
+             #{content},
+             #{top}
+            )
+    </insert>
+
+    <!-- 删除公告 -->
+    <delete id="removeAnnouncement">
+        delete from announcement_tb
+        where id = #{id}
+    </delete>
+
+    <!-- 修改公告 -->
+    <update id="updateAnnouncement">
+        update announcement_tb
+        set
+            title = #{title},
+            author = #{author},
+            content = #{content},
+            top = #{top}
+        where id = #{id}
+    </update>
+
+    <!-- 修改公告置顶状态 -->
+    <update id="updateTopStatus">
+        update announcement_tb
+        set top = "否"
+        where top = "是"
+    </update>
+
+    <!-- 查找置顶公告 -->
+    <select id="getTopAnnouncement" resultMap="Announcement">
+        select
+            id,
+            title,
+            author,
+            content,
+            date,
+            top
+        from announcement_tb
+        where top = "是"
+    </select>
+
+    <!-- 按照标题,发布人ID,日期进行公告搜索,如果是根据标题搜索,那么则进行模糊查询 -->
+    <select id="getAnnouncementsByKeyWords" resultMap="Announcement">
+        select
+            id,
+            title,
+            author,
+            content,
+            date,
+            top
+        from announcement_tb
+        <where>
+            <if test="property == '标题' and value != null">
+                title like #{value}
+            </if>
+            <if test="property == '发布人' and value != null">
+                author = #{value}
+            </if>
+            <if test="property == '日期' and value != null">
+                date = #{value}
+            </if>
+        </where>
+    </select>
+
+    <!-- 计数根据属性及其对应值 -->
+    <select id="count" resultType="int">
+        select count(id)
+        from announcement_tb
+        <where>
+            <if test="property == '标题' and value != null">
+                title like #{value}
+            </if>
+            <if test="property == '发布人' and value != null">
+                author = #{value}
+            </if>
+            <if test="property == '日期' and value != null">
+                date = #{value}
+            </if>
+        </where>
+    </select>
+</mapper>

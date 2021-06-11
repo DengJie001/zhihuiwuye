@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class=" js csstransforms3d">
+	<head>
+		<meta charset="utf-8">
+		<title>投诉建议处理</title>
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="css/base.css">
+		<link rel="stylesheet" href="css/page.css">
+		<link rel="stylesheet" type="text/css" href="css/mycss/tousujianyi_chuli.css"/>
+		<link rel="stylesheet" type="text/css" href="layui/css/layui.css" media="all" />
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/main.js"></script>
+		<script type="text/javascript" src="js/modernizr.js"></script>
+		<script type="text/javascript" src="layui/layui.all.js"></script>
+		<style type="text/css">
+			.layui-form-label {
+				width: 100px;
+			}
+
+			.layui-input-block {
+				margin-left: 130px;
+				min-height: 36px;
+			}
+		</style>
+	</head>
+	<body style="background: #f6f5fa;">
+		<div class="super-content">
+			<div class="superCtab">
+				<div class="ctab-title clearfix">
+					<h3>用户投诉建议处理</h3>
+				</div>
+				<div class="ctab-Main">
+					<div class="ctab-Main-title">
+						<ul class="clearfix">
+							<li class="cur"><a href="tousujianyi_chuli.html">投诉建议总览</a></li>
+						</ul>
+					</div>
+					<div class="ctab-Mian-cont">
+						<div class="Mian-cont-btn Mian-cont-btn2 clearfix" style="margin-bottom: 1px;">
+						</div>
+						<div class="Mian-cont-wrap">
+							<div style="text-align: center;">
+								<span style="font-size: 25px;">用户投诉建议</span>
+							</div>
+							<table class="layui-hide" id="complaintInfos" lay-filter="complaintInfos"></table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 头部操作栏 -->
+		<script type="text/html" id="headerToolList">
+			<button class="layui-btn layui-btn-sm" lay-event="exportSelectedComplaints">导出选中记录</button>
+			<button class="layui-btn layui-btn-warm layui-btn-sm" lay-event="exportAllComplaints">导出所有记录</button>
+			<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="showUntreated">显示未处理</button>
+			<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="showDissatisfaction">显示用户不满意</button>
+			<a class="layui-btn layui-btn-sm" lay-event="refreshTable"><i class="layui-icon layui-icon-refresh"></i></a>
+
+			<!-- 搜索区域 -->
+			<div class="layui-inline" style="float:right; margin-left: 10px;">
+				<a type="button" class="layui-btn layui-btn-normal" id="searchComplaints" style="height: 36px;">搜索</a>
+			</div> 
+			<input type="text" id="keyWords" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+			<div class="layui-inline" id="selectorContainer">
+				<select id="keys">
+					<option value ="处理人">选择属性</option>
+					<option value ="处理人">处理人</option>
+				</select>
+			</div>
+		</script>
+		<!-- 单元格操作栏 -->
+		<script type="text/html" id="cellToolList">
+			<a class="layui-btn layui-btn-xs" lay-event="showReplyPanel">回复</a>
+		</script>
+		
+		<!-- 查看图片按钮 -->
+		<script type="text/html" id="showPicture">
+			<a class="layui-btn layui-btn-xs" lay-event="showPicture">查看图片</a>
+		</script>
+		
+		<!-- 用户意见单元格模板 -->
+		<script type="text/html" id="resultTpl">
+			{{# if (d.result == '满意') { }}
+				<span style="color: limegreen">{{d.result}}</span>
+			{{# } else if (d.result == '不满意') { }}
+				<span style="color: red;">{{d.result}}</span>
+			{{# } }}
+		</script>
+		
+		<!-- 处理状态单元格模板 -->
+		<script type="text/html" id="statusTpl">
+			{{# if (d.status == '未处理') { }}
+				<span style="color: red;">{{d.status}}</span>
+			{{# } else if (d.status == '已处理') { }}
+				<span style="color: limegreen;">{{d.status}}</span>
+			{{# } }}
+		</script>
+		
+		<!-- 投诉建议类别模板 -->
+		<script type="text/html" id="categoryTpl">
+			{{# if (d.category == '建议') { }}
+				<span style="color: limegreen;">{{d.category}}</span>
+			{{# } else if (d.category == '投诉') { }}
+				<span style="color: red;">{{d.category}}</span>
+			{{# } }}
+		</script>
+		<!-- 在页面渲染结束后才能导入js文件 -->
+		<script type="text/javascript" src="js/main/tousujianyi_chuli.js"></script>
+
+		<div class="layui-row" id="replyContainer" style="display: none;">
+			<div class="layui-col-md10" style="margin-top: 25px;">
+				<form class="layui-form" id="replyForm">
+					<div class="layui-form-item">
+						<label class="layui-form-label">编号</label>
+						<div class="layui-input-block">
+							<input type="text" id="complaintId" class="layui-input" disabled="disabled" />
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">详细内容</label>
+						<div class="layui-input-block">
+							<textarea id="messageContent" class="layui-textarea" disabled="disabled"></textarea>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">回复内容</label>
+						<div class="layui-input-block">
+							<textarea class="layui-textarea" id="managerResponse"></textarea>
+						</div>
+					</div>
+					<div class="layui-form-item" style="margin-top: 40px;">
+						<div class="layui-input-block" style="margin-left: 228px;">
+							<button type="button" class="layui-btn layui-btn-submit" id="reply">回复</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<div id="pictureContainer" style="display: none;">
+		</div>
+	</body>
+</html>

@@ -20,6 +20,8 @@ public interface IManagerService {
 
     public int updateManagerInfo(Manager manager);
 
+    public int updateManagerPassword(String managerId, String password) throws Exception;
+
     public Manager getManagerById(String managerId);
 
     public Manager getManagerByTel(String managerTel);
@@ -31,4 +33,6 @@ public interface IManagerService {
     public int countTotal(String property, String keyWords);
 
     public List<Manager> search(String property, String keyWords);
+
+    public int managerLogin(String managerId, String password) throws Exception;
 }

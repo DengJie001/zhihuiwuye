@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IUtilityBillDao">
+    <resultMap id="UtilityBill" type="club.codemata.entity.UtilityBill">
+        <!-- 主键列 -->
+        <id column="bill_id" property="billId" />
+        <!-- 非主键列 -->
+        <result column="bill_figure" property="billFigure" />
+        <result column="user_id" property="userId" />
+        <result column="area_id" property="areaId" />
+        <result column="unit_id" property="unitId" />
+        <result column="room_id" property="roomId" />
+        <result column="bill_status" property="billStatus" />
+        <result column="bill_date" property="billDate" />
+        <result column="bill_category" property="billCategory" />
+        <result column="manager_id" property="managerId" />
+    </resultMap>
+
+    <!-- 新增一条物业账单 -->
+    <insert id="saveUtilityBill">
+        insert into utility_bill_tb
+            (
+             bill_id,
+             bill_figure,
+             user_id,
+             area_id,
+             unit_id,
+             room_id,
+             bill_status,
+             bill_category,
+             manager_id
+            )
+        values
+            (
+             #{billId},
+             #{billFigure},
+             #{userId},
+             #{areaId},
+             #{unitId},
+             #{roomId},
+             #{billStatus},
+             #{billCategory},
+             #{managerId}
+            )
+    </insert>
+
+    <!-- 更新一条物业账单信息 -->
+    <update id="updateUtilityBill">
+        update utility_bill_tb
+        set
+            bill_figure = #{billFigure},
+            bill_category = #{billCategory}
+        where bill_id = #{billId}
+    </update>
+
+    <update id="updateUtilityBillStatus">
+        update utility_bill_tb
+        set bill_status = #{billStatus}
+        where bill_id = #{billId}
+    </update>
+
+    <select id="getUtilityBill" resultMap="UtilityBill">
+        select
+            bill_id,
+            bill_figure,
+            user_id,
+            area_id,
+            unit_id,
+            room_id,
+            bill_status,
+            bill_date,
+            bill_category,
+            manager_id
+        from utility_bill_tb
+        where bill_id = #{billId}
+    </select>
+
+    <!-- 查询所有物业订单 -->
+    <select id="getAllUtilityBills" resultMap="UtilityBill">
+        select
+            bill_id,
+            user_id,
+            bill_figure,
+            area_id,
+            unit_id,
+            room_id,
+            bill_status,
+            bill_date,
+            bill_category,
+            manager_id
+        from utility_bill_tb
+    </select>
+
+    <!-- 根据用户ID查找该用户的所有物业账单 -->
+    <select id="getUtilityBillsByUserId" resultMap="UtilityBill">
+        select
+            bill_id,
+            bill_figure,
+            user_id,
+            area_id,
+            unit_id,
+            room_id,
+            bill_status,
+            bill_date,
+            bill_category,
+            bill_date,
+            bill_category,
+            manager_id
+        from utility_bill_tb
+        where user_id = #{userId}
+    </select>
+
+    <!-- 根据账单所属用户的地址查询物业账单 -->
+    <select id="getUtilityBillsByAddress" resultMap="UtilityBill">
+        select
+            bill_id,
+            bill_figure,
+            user_id,
+            area_id,
+            unit_id,
+            room_id,
+            bill_status,
+            bill_date,
+            bill_category,
+            bill_date,
+            bill_category,
+            manager_id
+        from utility_bill_tb
+        where
+            area_id = #{areaId} and
+            unit_id = #{unitId} and
+            room_id = #{roomId} and
+            bill_status = #{billStatus}
+    </select>
+
+    <!-- 根据用户(非必须)和物业账单状态(已支付,未支付)查询物业账单 -->
+    <select id="getUtilityBillsByBillStatus" resultMap="UtilityBill">
+        select
+            bill_id,
+            bill_figure,
+            user_id,
+            area_id,
+            unit_id,
+            room_id,
+            bill_status,
+            bill_date,
+            bill_category,
+            bill_date,
+            bill_category,
+            manager_id
+        from utility_bill_tb
+        <where>
+            <if test="billStatus != null">
+                bill_status = #{billStatus}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据用户和物业账单类别查询物业账单 -->
+    <select id="getUtilityBillsByBillCategory" resultMap="UtilityBill">
+        select
+            bill_id,
+            bill_figure,
+            user_id,
+            area_id,
+            unit_id,
+            room_id,
+            bill_status,
+            bill_date,
+            bill_category,
+            bill_date,
+            bill_category,
+            manager_id
+        from utility_bill_tb
+        <where>
+            <if test="billCategory != null">
+                bill_category = #{billCategory}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 根据属性和值对物业账单进行计数 -->
+    <select id="count" resultType="int">
+        select count(bill_id)
+        from utility_bill_tb
+        <where>
+            <if test="property == '类别'">
+                bill_category = #{value}
+                <if test="userId != null">
+                    and user_id = #{userId}
+                </if>
+            </if>
+            <if test="property == '状态'">
+                bill_status = #{value}
+                <if test="userId != null">
+                    and user_id = #{userId}
+                </if>
+            </if>
+        </where>
+    </select>
+
+    <select id="countByAddress" resultType="int">
+        select count(bill_id)
+        from utility_bill_tb
+        where
+            area_id = #{areaId} and
+            unit_id = #{unitId} and
+            room_id = #{roomId} and
+            bill_status = #{billStatus}
+    </select>
+
+    <!-- 根据用户ID对该用户账单进行计数 -->
+    <select id="countByUserId" resultType="int">
+        select count(bill_id)
+        from utility_bill_tb
+        where user_id = #{userId}
+    </select>
+</mapper>

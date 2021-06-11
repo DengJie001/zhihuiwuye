@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IPropertyRepairInfoDao">
+    <resultMap id="PropertyRepairInfo" type="club.codemata.entity.PropertyRepairInfo">
+        <!-- 主键列 -->
+        <id column="id" property="id" />
+        <!-- 非主键列 -->
+        <result column="user_id" property="userId" />
+        <result column="worker_id" property="workerId" />
+        <result column="repair_description" property="repairDescription" />
+        <result column="order_date" property="orderDate" />
+        <result column="cost" property="cost" />
+        <result column="order_status" property="orderStatus" />
+    </resultMap>
+
+    <!-- 新增一条物业维修订单 -->
+    <insert id="savePropertyRepairInfo">
+        insert into property_repair_tb
+            (
+             id,
+             user_id,
+             worker_id,
+             repair_description,
+             cost
+            )
+        values
+            (
+             #{id},
+             #{userId},
+             #{workerId},
+             #{repairDescription},
+             #{cost}
+            )
+    </insert>
+
+    <!-- 修改工单状态为已完成 -->
+    <update id="updatePropertyRepairInfoOrderStatus">
+        update property_repair_tb
+        set order_status = #{orderStatus}
+        where id = #{repairId}
+    </update>
+
+    <!-- 删除一条维修信息 -->
+    <delete id="removeRepairInfo">
+        delete from property_repair_tb
+        where id = #{id}
+    </delete>
+
+    <!-- 按照物业维修ID查找一条物业记录 -->
+    <select id="getRepairInfoById" resultMap="PropertyRepairInfo">
+        select
+            id,
+            user_id,
+            worker_id,
+            repair_description,
+            order_date,
+            cost,
+            order_status
+        from property_repair_tb
+        where id = #{id}
+    </select>
+
+    <!-- 根据用户ID查找该用户下单的所有物业维修记录 -->
+    <select id="getRepairInfosByUserId" resultMap="PropertyRepairInfo">
+        select
+            id,
+            user_id,
+            worker_id,
+            repair_description,
+            order_date,
+            cost,
+            order_status
+        from property_repair_tb
+        where user_id = #{userId}
+    </select>
+
+    <!-- 根据属性及其对应值对物业维修记录进行计数 -->
+    <select id="count" resultType="int">
+        select count(id)
+        from property_repair_tb
+        <where>
+            <if test="property == '用户ID' and value != null">
+                user_id = #{value}
+            </if>
+            <if test="property == '员工编号' and value != null">
+                worker_id = #{value}
+            </if>
+        </where>
+    </select>
+
+    <!-- 获取该员工未处理的工单数量 -->
+    <select id="countUntreated" resultType="int">
+        select count(id)
+        from property_repair_tb
+        where
+            worker_id = #{workerId} and
+            order_status = #{orderStatus}
+    </select>
+</mapper>

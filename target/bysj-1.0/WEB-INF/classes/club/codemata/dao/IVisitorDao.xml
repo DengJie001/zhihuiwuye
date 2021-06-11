@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="club.codemata.dao.IVisitorDao">
+    <resultMap id="Visitor" type="club.codemata.entity.Visitor">
+        <!-- 主键列 -->
+        <id column="visitor_id" property="visitorId" />
+        <!-- 非主键列 -->
+        <result column="visitor_name" property="visitorName" />
+        <result column="visitor_tel" property="visitorTel" />
+        <result column="visitor_temperature" property="visitorTemperature" />
+        <result column="visit_date" property="visitDate" />
+        <result column="visitor_home_address" property="visitorHomeAddress" />
+        <result column="visitor_work_address" property="visitorWorkAddress" />
+    </resultMap>
+
+    <insert id="saveVisitorInfo">
+        insert into visitor_info_tb
+            (
+             visitor_name,
+             visitor_tel,
+             visitor_temperature,
+             visitor_home_address,
+             visitor_work_address
+            )
+        values
+            (
+             #{visitorName},
+             #{visitorTel},
+             #{visitorTemperature},
+             #{visitorHomeAddress},
+             #{visitorWorkAddress}
+            )
+    </insert>
+    
+    <delete id="removeVisitorInfo">
+        delete from visitor_info_tb
+        where visitor_id = #{visitorId}
+    </delete>
+    
+    <select id="getAllVisitors" resultMap="Visitor">
+        select
+            visitor_id,
+            visitor_name,
+            visitor_tel,
+            visitor_temperature,
+            visit_date,
+            visitor_home_address,
+            visitor_work_address
+        from visitor_info_tb
+    </select>
+    
+    <select id="getVisitorsByTemperature" resultMap="Visitor">
+        select
+            visitor_id,
+            visitor_name,
+            visitor_tel,
+            visitor_temperature,
+            visit_date,
+            visitor_home_address,
+            visitor_work_address
+        from visitor_info_tb
+        where visitor_temperature >= #{visitorTemperature}
+    </select>
+
+    <select id="getVisitorByDate" resultMap="Visitor">
+        select
+            visitor_id,
+            visitor_name,
+            visitor_tel,
+            visitor_temperature,
+            visit_date,
+            visitor_home_address,
+            visitor_work_address
+        from visitor_info_tb
+        where visit_date = #{visitDate}
+    </select>
+
+    <select id="countAll" resultType="int">
+        select count(visitor_id)
+        from visitor_info_tb
+    </select>
+
+    <select id="countByTemperature" resultType="int">
+        select count(visitor_id)
+        from visitor_info_tb
+        where visitor_temperature >= #{temperature}
+    </select>
+
+    <select id="countByDate" resultType="int">
+        select count(visitor_id)
+        from visitor_info_tb
+        where visit_date = #{visitDate}
+    </select>
+</mapper>
